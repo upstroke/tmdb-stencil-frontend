@@ -1,0 +1,63 @@
+.ui.menu.fixed {
+  z-index: 1000;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.6) !important;
+
+  .ui.container {
+    margin: 0;
+    padding: 0;
+
+    .item.search {
+      flex: 1;
+    }
+
+    stencil-route-link {
+      padding: 0;
+
+      .link-active {
+        background: rgba(255,255,255,.15);
+        color: rgb(255 255 255)!important;
+      }
+
+      a {
+        padding: .92857143em 1.14285714em
+      }
+    }
+  }
+
+}
+
+a > *:not(a):not(i) {
+  color: initial
+}
+
+.ui.divider {
+  margin: 2rem 0;
+}
+
+.ui.light.button {
+  background: rgba(0, 0, 0, .04);
+
+  &:hover {
+    background: rgba(0, 0, 0, .06);
+  }
+}
+
+main {
+  position: relative;
+  top: 6rem;
+  padding-bottom: 12rem;
+}
+
+.spacer {
+  margin: .8em 0;
+  position: relative;
+  display: table;
+}
+
+.small {
+  font-size: 80%;
+}
+
+.ui.cards {
+  margin-bottom: .5rem !important;
+}

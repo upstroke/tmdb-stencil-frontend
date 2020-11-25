@@ -1,0 +1,12 @@
+footer {
+  z-index: 1000;
+  min-height: 60px;
+
+  .ui.segment {
+    flex: 1
+  }
+
+  .secondary.menu {
+    justify-content: center;
+  }
+}
