@@ -34,6 +34,10 @@ export namespace Components {
     interface MainFooter {
     }
     interface TypeaheadSearch {
+        "getSearchResult": (term: any) => Promise<void>;
+        "goTo": (e: any, route: any, data: any) => Promise<void>;
+        "history": RouterHistory;
+        "onSearchInput": (val: any) => Promise<void>;
     }
 }
 declare global {
@@ -129,6 +133,7 @@ declare namespace LocalJSX {
     interface MainFooter {
     }
     interface TypeaheadSearch {
+        "history"?: RouterHistory;
     }
     interface IntrinsicElements {
         "app-details": AppDetails;

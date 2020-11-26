@@ -26,10 +26,6 @@ export class FeaturedCard {
     FetchService.getDetails(this.mediaType, this.elementId);
   }
 
-  componentWillLoad(){
-    // console.log('AppState.featuredData: ', AppState.detailsData)
-  }
-
   render() {
     if(AppState.detailsData){
       return (
@@ -65,7 +61,7 @@ export class FeaturedCard {
 
             <div class="spacer">
               <div class="content">
-                <h3 class="ui dividing header">Webseite:</h3>
+                <h3 class="ui header">Webseite:</h3>
                 <p><a class="link" href={AppState.detailsData.homepage} target="_blank" rel="noopener noreferrer">{AppState.detailsData.homepage.replace('https://','')}</a></p>
               </div>
             </div>
@@ -81,9 +77,9 @@ export class FeaturedCard {
     }
 
     return (
-      <div class="ui teaser card">
-        <div class="content">
-          <div class="ui active text loader">Loading</div>
+      <div class="ui segment is-loading">
+        <div class="ui active inverted dimmer">
+          <div class="ui text loader">Loading</div>
         </div>
       </div>
     )

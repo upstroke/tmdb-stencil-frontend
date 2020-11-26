@@ -22,6 +22,9 @@ export class AppTVshows {
     if(AppState.tvShows){
       return (
         <main class="ui container">
+          <h2 class="ui dividing header">Featured Today</h2>
+          <featured-card class="ui featured card" media-type="tv" element-id="68421"/>
+
           <h2 class="ui dividing header">Top Rated TV Shows</h2>
           <div class="spacer">
             <p>Discover movies by different types of data like average rating, number of votes, genres and

@@ -148,6 +148,7 @@ export class AppDetails {
               </div>
 
               <div class="hidden spacer"></div>
+              <div class="hidden spacer"></div>
               <div class="event">
                 <div class="content">
                   <div class="summary">

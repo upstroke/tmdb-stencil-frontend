@@ -23,6 +23,9 @@ export class AppMovies {
     if(AppState.movies){
       return (
         <main class="ui container">
+          <h2 class="ui dividing header">Featured Today</h2>
+          <featured-card class="ui featured card" media-type="movie" element-id="337401"/>
+
           <h2 class="ui dividing header">Top Rated Movies</h2>
           <div class="spacer">
             <p>Discover movies by different types of data like average rating, number of votes, genres and

@@ -66,4 +66,9 @@
     padding-bottom: 10px;
     line-height: 1;
   }
+
+  .segment.is-loading {
+    height: 250px;
+    box-shadow: 0 0 0 0 white;
+  }
 }

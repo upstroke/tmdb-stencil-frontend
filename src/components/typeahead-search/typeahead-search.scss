@@ -27,6 +27,7 @@ typeahead-search {
 
   .ui.category.search .results {
     width: 100%;
+    margin-top: 1em;
 
     .category {
       display: table;
@@ -39,6 +40,7 @@ typeahead-search {
 
     .content {
       position: relative;
+      padding-right: 50px;
 
       .ui.basic.label {
         position: absolute;
@@ -65,6 +67,14 @@ typeahead-search {
 
     .result .title {
       padding-right: 40px;
+    }
+
+    &.show {
+      display: block;
+    }
+
+    &.hidden {
+      display: none;
     }
   }
 }

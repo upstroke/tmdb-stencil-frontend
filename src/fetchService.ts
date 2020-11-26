@@ -60,7 +60,7 @@ class FetchAPI {
   }
 
   getDetails(type, id) {
-    AppState.detailsData = ''; // reset Details State
+    AppState.detailsData = ''; // reset details data
     this.fetchRequestJSON(`${AppState.baseUrl}/${type}/${id}?api_key=${AppState.apiKey}&language=${AppState.language}`)
       .then((data1) => {
         this.fetchRequestJSON(`${AppState.baseUrl}/${type}/${id}/credits?api_key=${AppState.apiKey}`)
@@ -69,6 +69,17 @@ class FetchAPI {
             // console.log('detailsData: ',AppState.detailsData);
           })
       });
+  }
+
+  getSeachResults(term) {
+    this.fetchRequestJSON(`${AppState.baseUrl}/search/movie?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
+      .then((data1) => {
+        this.fetchRequestJSON(`${AppState.baseUrl}/search/tv?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
+          .then((data2) => {
+            AppState.searchData = {'movies': [...data1.results], 'tvShows': [...data2.results]}
+            console.log('searchData: ',AppState.searchData);
+          })
+      })
   }
 
 }

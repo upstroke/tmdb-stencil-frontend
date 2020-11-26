@@ -16,7 +16,10 @@ const store = createStore({
 
   detailsData: undefined,
 
-  featuredData: undefined
+  featuredData: undefined,
+
+  searchData: {'movies':[], 'tvShows':[]},
+  setSearchResultsVisible: false
 });
 
 
@@ -47,6 +50,14 @@ store.onChange('detailsData', (value) => {
 
 store.onChange('featuredData', (value) => {
   AppState.featuredData = value;
+});
+
+store.onChange('searchData', (value) => {
+  AppState.searchData = value;
+});
+
+store.onChange('setSearchResultsVisible', (value) => {
+  AppState.setSearchResultsVisible = value;
 });
 
 export const AppState = store.state;
