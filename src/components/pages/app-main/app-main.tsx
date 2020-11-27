@@ -11,7 +11,7 @@ import { FetchService } from '../../../fetchService';
 export class AppMain {
 
   @Method()
-    async showMore(amount) {
+    async showMore(amount: number) {
       FetchService.showMore('trending', amount)
     }
 

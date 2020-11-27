@@ -15,7 +15,7 @@ export class TypeaheadSearch {
   @Prop() history: RouterHistory
 
   @Method()
-    async onSearchInput(val){
+    async onSearchInput(val: string){
       if(val.length > 3){
         this.getSearchResult(val)
       }
@@ -26,7 +26,7 @@ export class TypeaheadSearch {
     }
 
   @Method()
-    async getSearchResult(term){
+    async getSearchResult(term: string){
       FetchService.getSeachResults(term)
       if(AppState.searchData.movies.length || AppState.searchData.tvShows.length){
         AppState.setSearchResultsVisible = true
@@ -42,9 +42,6 @@ export class TypeaheadSearch {
       AppState.setSearchResultsVisible = false
       window.location.reload()
     }
-
-  componentWillLoad(){
-  }
 
   render() {
     return (

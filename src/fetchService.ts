@@ -3,9 +3,7 @@ import { AppState } from './store'
 class FetchAPI {
   constructor() {}
 
-  featuredArray = [];
-
-  async fetchRequestJSON(url) {
+  async fetchRequestJSON(url: string) {
     try {
       const response = await fetch(url);
       const requestData = await response.json();
@@ -24,13 +22,13 @@ class FetchAPI {
     }
   }
 
-  showMore(type, amount) {
+  showMore(type: string, amount: number) {
     if(AppState[type].results.length > AppState[`${type}AmountToShow`]){
       AppState[`${type}AmountToShow`] = AppState[`${type}AmountToShow`] + amount
     }
   }
 
-  getAll(type) {
+  getAll(type: string) {
     switch (type) {
       case 'trending':
         if(!AppState.trending){
@@ -59,7 +57,7 @@ class FetchAPI {
     }
   }
 
-  getDetails(type, id) {
+  getDetails(type: string, id: string) {
     AppState.detailsData = ''; // reset details data
     this.fetchRequestJSON(`${AppState.baseUrl}/${type}/${id}?api_key=${AppState.apiKey}&language=${AppState.language}`)
       .then((data1) => {
@@ -71,13 +69,13 @@ class FetchAPI {
       });
   }
 
-  getSeachResults(term) {
+  getSeachResults(term: string) {
     this.fetchRequestJSON(`${AppState.baseUrl}/search/movie?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
       .then((data1) => {
         this.fetchRequestJSON(`${AppState.baseUrl}/search/tv?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
           .then((data2) => {
             AppState.searchData = {'movies': [...data1.results], 'tvShows': [...data2.results]}
-            console.log('searchData: ',AppState.searchData);
+            // console.log('searchData: ',AppState.searchData);
           })
       })
   }

@@ -13,8 +13,8 @@ import { Utils } from '../../../utils';
 export class AppDetails {
 
   @Prop() history: RouterHistory
-  @Prop() elementID: any
-  @Prop() media_type: any
+  @Prop() elementID: string
+  @Prop() media_type: string
 
   getDetailsInfo(type) {
     if(type==="movie"){

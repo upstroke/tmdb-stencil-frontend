@@ -13,8 +13,8 @@ import { Utils } from '../../../utils';
 export class FeaturedCard {
 
   @Prop() history: RouterHistory
-  @Prop() elementId: any
-  @Prop() mediaType: any
+  @Prop() elementId: string
+  @Prop() mediaType: string
 
   @Method()
     async goTo(e, route, data) {

@@ -8,12 +8,12 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { RouterHistory } from "@stencil/router";
 export namespace Components {
     interface AppDetails {
-        "elementID": any;
+        "elementID": string;
         "history": RouterHistory;
-        "media_type": any;
+        "media_type": string;
     }
     interface AppMain {
-        "showMore": (amount: any) => Promise<void>;
+        "showMore": (amount: number) => Promise<void>;
     }
     interface AppMovies {
     }
@@ -26,18 +26,18 @@ export namespace Components {
         "item": any;
     }
     interface FeaturedCard {
-        "elementId": any;
+        "elementId": string;
         "goTo": (e: any, route: any, data: any) => Promise<void>;
         "history": RouterHistory;
-        "mediaType": any;
+        "mediaType": string;
     }
     interface MainFooter {
     }
     interface TypeaheadSearch {
-        "getSearchResult": (term: any) => Promise<void>;
+        "getSearchResult": (term: string) => Promise<void>;
         "goTo": (e: any, route: any, data: any) => Promise<void>;
         "history": RouterHistory;
-        "onSearchInput": (val: any) => Promise<void>;
+        "onSearchInput": (val: string) => Promise<void>;
     }
 }
 declare global {
@@ -109,9 +109,9 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AppDetails {
-        "elementID"?: any;
+        "elementID"?: string;
         "history"?: RouterHistory;
-        "media_type"?: any;
+        "media_type"?: string;
     }
     interface AppMain {
     }
@@ -126,9 +126,9 @@ declare namespace LocalJSX {
         "item"?: any;
     }
     interface FeaturedCard {
-        "elementId"?: any;
+        "elementId"?: string;
         "history"?: RouterHistory;
-        "mediaType"?: any;
+        "mediaType"?: string;
     }
     interface MainFooter {
     }
