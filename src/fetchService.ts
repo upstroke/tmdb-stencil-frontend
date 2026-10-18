@@ -1,18 +1,8 @@
 import { AppState } from './store'
 
-type FeedType = 'trending' | 'movie' | 'tv';
+type FeedType = 'trending' | 'movies' | 'tvShows';
 
-const feedStateKeys = {
-  trending: 'trending',
-  movie: 'movies',
-  tv: 'tvShows',
-} as const;
-
-const feedAmountKeys = {
-  trending: 'trendingAmountToShow',
-  movie: 'moviesAmountToShow',
-  tv: 'tvShowsAmountToShow',
-} as const;
+type ApiFeedType = 'trending' | 'movie' | 'tv';
 
 class FetchAPI {
   private detailsRequestId = 0;
@@ -42,18 +32,16 @@ class FetchAPI {
   }
 
   showMore(type: FeedType, amount: number) {
-    const feedKey = feedStateKeys[type];
-    const amountKey = feedAmountKeys[type];
-    const feed = AppState[feedKey] as { results: any[] } | undefined;
+    const feed = AppState[type] as { results: any[] } | undefined;
 
-    if (!feed || feed.results.length <= AppState[amountKey]) {
+    if (!feed || feed.results.length <= AppState[`${type}AmountToShow`]) {
       return;
     }
 
-    AppState[amountKey] = AppState[amountKey] + amount;
+    AppState[`${type}AmountToShow`] = AppState[`${type}AmountToShow`] + amount;
   }
 
-  getAll(type: FeedType) {
+  getAll(type: ApiFeedType) {
     switch (type) {
       case 'trending':
         if(!AppState.trending){
