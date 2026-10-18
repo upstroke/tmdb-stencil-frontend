@@ -17,7 +17,7 @@ export class AppDetails {
   @Watch('mediaType')
   handleRouteParameterChange() {
     if (this.elementId && this.mediaType) {
-      FetchService.getDetails(this.mediaType, this.elementId);
+      void FetchService.getDetails(this.mediaType, this.elementId);
     }
   }
 
@@ -78,7 +78,7 @@ export class AppDetails {
   }
 
   connectedCallback() {
-    FetchService.getDetails(this.mediaType, this.elementId);
+    void FetchService.getDetails(this.mediaType, this.elementId);
   }
 
   render() {
@@ -90,7 +90,7 @@ export class AppDetails {
           <main class="ui text container details-view">
             <h1>Eintrag nicht gefunden</h1>
             <p>Die angeforderte Film- oder Serien-ID existiert nicht.</p>
-            <a class="ui button" href="#/">Zur Startseite</a>
+            <a class="ui button" href="/#/">Zur Startseite</a>
           </main>
         </Host>
       );
