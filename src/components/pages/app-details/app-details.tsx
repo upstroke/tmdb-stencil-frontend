@@ -9,7 +9,7 @@ import { Utils } from '../../../utils';
   shadow: false,
 })
 export class AppDetails {
-  @Prop() id: string;
+  @Prop() elementId: string;
   @Prop() mediaType: string;
 
   getDetailsInfo(type: string) {
@@ -69,7 +69,7 @@ export class AppDetails {
   }
 
   connectedCallback() {
-    FetchService.getDetails(this.mediaType, this.id);
+    FetchService.getDetails(this.mediaType, this.elementId);
   }
 
   render() {
