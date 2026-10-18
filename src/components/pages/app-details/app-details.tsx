@@ -4,6 +4,9 @@ import { FetchService } from '../../../fetchService';
 import { Utils } from '../../../utils';
 import { DetailsData } from '../../../types/tmdb';
 
+const hasValue = (value?: string | number | null): boolean =>
+  value !== undefined && value !== null && value !== 0 && value !== '0' && value !== '';
+
 @Component({
   tag: 'app-details',
   styleUrl: 'app-details.scss',
@@ -26,7 +29,7 @@ export class AppDetails {
       return (
         <section>
           <h2 class="ui medium header">Spieldauer:</h2>
-          {detailsData.runtime ? (
+          {hasValue(detailsData.runtime) ? (
             <p class="small">
               <span>{detailsData.runtime} Minuten</span>
             </p>
@@ -45,21 +48,21 @@ export class AppDetails {
             <div class="four wide column cast">
               <strong class="header">Status</strong>
               <br />
-              <small class="meta">{detailsData.status}</small>
+              <small class="meta">{hasValue(detailsData.status) ? detailsData.status : 'keine Information vorhanden'}</small>
             </div>
             <div class="four wide column cast">
               <strong class="header">Staffeln</strong>
               <br />
-              <small class="ui green tiny label meta">{detailsData.number_of_seasons}</small>
+              <small class="ui green tiny label meta">{hasValue(detailsData.number_of_seasons) ? detailsData.number_of_seasons : 'keine Information vorhanden'}</small>
             </div>
             <div class="four wide column cast">
               <strong class="header">Episoden</strong>
               <br />
-              <small class="ui orange tiny label meta">{detailsData.number_of_episodes}</small>
+              <small class="ui orange tiny label meta">{hasValue(detailsData.number_of_episodes) ? detailsData.number_of_episodes : 'keine Information vorhanden'}</small>
             </div>
             <div class="four wide column cast">
               <strong class="header">Spieldauer</strong>
-              {detailsData.episode_run_time ? (
+              {detailsData.episode_run_time?.length && hasValue(detailsData.episode_run_time[0]) ? (
                 <p>
                   <small class="meta">{detailsData.episode_run_time[0]} Minuten pro Episode</small>
                 </p>
@@ -108,7 +111,11 @@ export class AppDetails {
             </div>
             <div class="ui text container">
               <h1 class="ui inverted header">
-                {detailsData.title ? detailsData.title : detailsData.name}
+                {hasValue(detailsData.title)
+                  ? detailsData.title
+                  : hasValue(detailsData.name)
+                    ? detailsData.name
+                    : 'keine Information vorhanden'}
                 {detailsData.poster_path ? (
                   <div class="poster">
                     <img src={`https://image.tmdb.org/t/p/w342/${detailsData.poster_path}`} alt="" />
@@ -139,7 +146,7 @@ export class AppDetails {
               <span class={`ui label ${this.mediaType === 'tv' ? 'teal' : 'blue'}`}>{this.mediaType}</span>
               <span class="ui label">
                 <i class="yellow star icon"></i>
-                {detailsData.vote_average}
+                {hasValue(detailsData.vote_average) ? detailsData.vote_average : 'keine Information vorhanden'}
               </span>
             </div>
 
@@ -155,11 +162,11 @@ export class AppDetails {
 
             <div class="segment">
               <h2 class="ui medium header">Handlung:</h2>
-              {detailsData.overview ? <p class="overview">{detailsData.overview}</p> : <small>keine Information vorhanden</small>}
+              {hasValue(detailsData.overview) ? <p class="overview">{detailsData.overview}</p> : <small>keine Information vorhanden</small>}
 
               <h2 class="ui medium header">Homepage:</h2>
               <p>
-                {detailsData.homepage ? (
+                {hasValue(detailsData.homepage) ? (
                   <a class="home-link" href={detailsData.homepage} target="_blank" rel="noopener noreferrer">
                     {detailsData.homepage.replace('https://', '')}
                   </a>
@@ -169,8 +176,8 @@ export class AppDetails {
               </p>
 
               <h2 class="ui medium header">Erschienen:</h2>
-              {detailsData.release_date ? Utils.dateToLocale(detailsData.release_date) : null}
-              {detailsData.first_air_date ? Utils.dateToLocale(detailsData.first_air_date) : null}
+              {hasValue(detailsData.release_date) ? Utils.dateToLocale(detailsData.release_date) : null}
+              {hasValue(detailsData.first_air_date) ? Utils.dateToLocale(detailsData.first_air_date) : null}
 
               <h2 class="ui medium header">Produktion:</h2>
               {detailsData.production_companies?.length ? (
@@ -197,9 +204,9 @@ export class AppDetails {
                     <div class={`ui grid${detailsData.cast && detailsData.cast.length > 12 ? ' scroller' : ''}`}>
                       {detailsData.cast?.map((element, index) => (
                         <div class="four wide column cast" key={index}>
-                          <strong class="header">{element.character}</strong>
+                          <strong class="header">{hasValue(element.character) ? element.character : 'keine Information vorhanden'}</strong>
                           <br />
-                          <small class="meta">{element.name},&nbsp;</small>
+                          <small class="meta">{hasValue(element.name) ? element.name : 'keine Information vorhanden'},&nbsp;</small>
                         </div>
                       ))}
                     </div>
@@ -216,9 +223,9 @@ export class AppDetails {
                     <div class={`ui grid${detailsData.cast && detailsData.cast.length > 12 ? ' scroller' : ''}`}>
                       {detailsData.crew?.map((element, index) => (
                         <div class="four wide column crew" key={index}>
-                          <strong class="header">{element.job}</strong>
+                          <strong class="header">{hasValue(element.job) ? element.job : 'keine Information vorhanden'}</strong>
                           <br />
-                          <small class="meta">{element.original_name},&nbsp;</small>
+                          <small class="meta">{hasValue(element.original_name) ? element.original_name : 'keine Information vorhanden'},&nbsp;</small>
                         </div>
                       ))}
                     </div>
