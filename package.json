@@ -18,6 +18,7 @@
     "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
     "proxy": "node server/tmdb-proxy.mjs",
+    "dev": "concurrently -k -n proxy,stencil -c cyan,magenta \"npm run proxy\" \"npm run start\"",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate"
@@ -32,6 +33,7 @@
     "@rollup/plugin-replace": "^6.0.3",
     "@stencil/sass": "^1.4.0",
     "@types/node": "^26.6.5",
+    "concurrently": "^9.2.1",
     "dotenv": "^18.0.8"
   },
   "allowScripts": {
