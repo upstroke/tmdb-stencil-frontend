@@ -1,5 +1,25 @@
-import '@stencil/router';
 import { Component, h, Host } from '@stencil/core';
+import { AppRoute } from './app-outlet';
+
+const routes: AppRoute[] = [
+  {
+    path: '/',
+    component: 'app-main',
+    exact: true,
+  },
+  {
+    path: '/movies',
+    component: 'app-movies',
+  },
+  {
+    path: '/tvshows',
+    component: 'app-tvshows',
+  },
+  {
+    path: '/details/:id',
+    component: 'app-details',
+  },
+];
 
 @Component({
   tag: 'app-root',
@@ -10,33 +30,30 @@ export class AppRoot {
   render() {
     return (
       <Host>
-        <stencil-router class="ui top fixed inverted menu">
-          <div class="ui container" role="navigation">
-              <stencil-route-link class="item" url="/" exact>
-                <i class="home icon"></i> Home
-              </stencil-route-link>
-              <stencil-route-link class="item" url="/movies">
-                <i class="film icon"></i> Filme
-              </stencil-route-link>
-              <stencil-route-link class="item" url="/tvshows">
-                <i class="tv icon"></i> TV-Shows
-              </stencil-route-link>
-              <div class="item search">
-                <typeahead-search class="right menu searchbar" />
-              </div>
-            </div>
-        </stencil-router>
+        <header class="ui top fixed inverted menu">
+          <nav class="ui container" aria-label="Hauptnavigation">
+            <app-link href="/" exact>
+              <i class="home icon"></i> Home
+            </app-link>
 
-        <stencil-route-switch scrollTopOffset={0}>
-          <stencil-route url='/details:id' component='app-details' />
-          <stencil-route url='/movies' component='app-movies' />
-          <stencil-route url='/tvshows' component='app-tvshows' />
-          <stencil-route url='/' component='app-main' exact />
-        </stencil-route-switch>
+            <app-link href="/movies">
+              <i class="film icon"></i> Filme
+            </app-link>
+
+            <app-link href="/tvshows">
+              <i class="tv icon"></i> TV-Shows
+            </app-link>
+
+            <div class="item search">
+              <typeahead-search class="right menu searchbar" />
+            </div>
+          </nav>
+        </header>
+
+        <app-outlet routes={routes} />
 
         <main-footer></main-footer>
       </Host>
-
-    )
+    );
   }
 }
