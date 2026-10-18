@@ -35,7 +35,6 @@ export const config: Config = {
     {
       type: 'dist',
       esmLoaderPath: '../loader',
-      typesDir: 'src/types',
     },
     {
       type: 'dist-custom-elements',
