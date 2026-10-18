@@ -9,7 +9,7 @@ import { AppRoute } from "./components/app-outlet";
 export { AppRoute } from "./components/app-outlet";
 export namespace Components {
     interface AppDetails {
-        "id": string;
+        "elementId": string;
         "mediaType": string;
     }
     interface AppLink {
@@ -127,7 +127,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AppDetails {
-        "id"?: string;
+        "elementId"?: string;
         "mediaType"?: string;
     }
     interface AppLink {

@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Listen, Method, State } from '@stencil/core';
+import { Component, Element, h, Host, Listen, Method } from '@stencil/core';
 import { navigate } from '../../lib/router/router';
 import { FetchService } from '../../fetchService';
 import { Utils } from '../../utils';
@@ -12,7 +12,7 @@ import { AppState } from '../../store';
 export class TypeaheadSearch {
   @Element() host: HTMLElement;
 
-  @State() private searchInput: HTMLInputElement;
+  private searchInput: HTMLInputElement;
 
   @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
