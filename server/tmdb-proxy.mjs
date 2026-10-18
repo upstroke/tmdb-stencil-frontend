@@ -2,10 +2,10 @@ import 'dotenv/config';
 import http from 'node:http';
 
 const port = Number(process.env.PROXY_PORT ?? 3001);
-const tmdbApiKey = process.env.TMDB_API_KEY;
+const tmdbApiKey = process.env.APP_API_KEY;
 
 if (!tmdbApiKey) {
-  throw new Error('TMDB_API_KEY is missing in your .env file');
+  throw new Error('APP_API_KEY is missing in your .env file');
 }
 
 const server = http.createServer(async (request, response) => {
