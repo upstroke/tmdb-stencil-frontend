@@ -6,14 +6,12 @@ class FetchAPI {
   async fetchRequestJSON(url: string) {
     try {
       const response = await fetch(url);
-      const requestData = await response.json();
       this.handleErrors(response);
-      return requestData;
-
+      return await response.json();
     } catch (err) {
       console.log('Error: ', err);
+      return null;
     }
-
   }
 
   handleErrors(response) {
@@ -57,16 +55,24 @@ class FetchAPI {
     }
   }
 
-  getDetails(type: string, id: string) {
-    AppState.detailsData = ''; // reset details data
-    this.fetchRequestJSON(`${AppState.baseUrl}/${type}/${id}?api_key=${AppState.apiKey}&language=${AppState.language}`)
-      .then((data1) => {
-        this.fetchRequestJSON(`${AppState.baseUrl}/${type}/${id}/credits?api_key=${AppState.apiKey}`)
-          .then((data2) => {
-            AppState.detailsData = {...data1,...data2}
-            // console.log('detailsData: ',AppState.detailsData);
-          })
-      });
+  async getDetails(type: string, id: string) {
+    AppState.detailsData = null;
+
+    const details = await this.fetchRequestJSON(
+      `${AppState.baseUrl}/${type}/${id}?api_key=${AppState.apiKey}&language=${AppState.language}`
+    );
+
+    if (!details || !details.id) {
+      return;
+    }
+
+    const credits = await this.fetchRequestJSON(
+      `${AppState.baseUrl}/${type}/${id}/credits?api_key=${AppState.apiKey}`
+    );
+
+    AppState.detailsData = credits
+      ? { ...details, ...credits }
+      : details;
   }
 
   getSeachResults(term: string) {
@@ -75,7 +81,6 @@ class FetchAPI {
         this.fetchRequestJSON(`${AppState.baseUrl}/search/tv?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
           .then((data2) => {
             AppState.searchData = {'movies': [...data1.results], 'tvShows': [...data2.results]}
-            // console.log('searchData: ',AppState.searchData);
           })
       })
   }

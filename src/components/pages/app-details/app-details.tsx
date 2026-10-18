@@ -81,6 +81,18 @@ export class AppDetails {
   }
 
   render() {
+    if (AppState.detailsData === null) {
+      return (
+        <Host>
+          <main class="ui text container details-view">
+            <h1>Eintrag nicht gefunden</h1>
+            <p>Die angeforderte Film- oder Serien-ID existiert nicht.</p>
+            <a class="ui button" href="#/">Zur Startseite</a>
+          </main>
+        </Host>
+      );
+    }
+
     if (AppState.detailsData) {
       return (
         <Host>
