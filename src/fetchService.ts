@@ -4,6 +4,12 @@ type FeedType = 'trending' | 'movies' | 'tvShows';
 
 type ApiFeedType = 'trending' | 'movie' | 'tv';
 
+const feedEndpoints = {
+  trending: 'trending/all/week',
+  movies: 'trending/movie/week',
+  tvShows: 'trending/tv/week',
+} as const;
+
 class FetchAPI {
   private detailsRequestId = 0;
 
@@ -31,14 +37,41 @@ class FetchAPI {
     }
   }
 
-  showMore(type: FeedType, amount: number) {
-    const feed = AppState[type] as { results: any[] } | undefined;
+  async showMore(type: FeedType, amount: number) {
+    const feed = AppState[type] as any;
+    const amountKey = `${type}AmountToShow` as 'trendingAmountToShow' | 'moviesAmountToShow' | 'tvShowsAmountToShow';
 
-    if (!feed || feed.results.length <= AppState[`${type}AmountToShow`]) {
+    if (!feed) {
       return;
     }
 
-    AppState[`${type}AmountToShow`] = AppState[`${type}AmountToShow`] + amount;
+    const nextAmount = AppState[amountKey] + amount;
+    AppState[amountKey] = nextAmount;
+
+    if (nextAmount < feed.results.length) {
+      return;
+    }
+
+    if (feed.page >= feed.total_pages) {
+      return;
+    }
+
+    const nextPage = feed.page + 1;
+    const endpoint = feedEndpoints[type];
+
+    const data = await this.fetchRequestJSON(
+      `${AppState.baseUrl}/${endpoint}?api_key=${AppState.apiKey}&language=${AppState.language}&page=${nextPage}`
+    );
+
+    if (!data?.results?.length) {
+      return;
+    }
+
+    AppState[type] = {
+      ...feed,
+      page: data.page,
+      results: [...feed.results, ...data.results],
+    };
   }
 
   getAll(type: ApiFeedType) {
