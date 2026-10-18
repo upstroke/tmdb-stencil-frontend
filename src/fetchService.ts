@@ -106,7 +106,7 @@ class FetchAPI {
       : details;
   }
 
-  getSeachResults(term: string) {
+  getSearchResults(term: string) {
     this.fetchRequestJSON(`${AppState.baseUrl}/search/movie?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
       .then((data1) => {
         this.fetchRequestJSON(`${AppState.baseUrl}/search/tv?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
