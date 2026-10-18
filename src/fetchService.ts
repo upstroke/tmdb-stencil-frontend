@@ -44,7 +44,7 @@ class FetchAPI {
   showMore(type: FeedType, amount: number) {
     const feedKey = feedStateKeys[type];
     const amountKey = feedAmountKeys[type];
-    const feed = AppState[feedKey];
+    const feed = AppState[feedKey] as { results: any[] } | undefined;
 
     if (!feed || feed.results.length <= AppState[amountKey]) {
       return;
