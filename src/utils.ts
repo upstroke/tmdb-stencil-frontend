@@ -1,17 +1,17 @@
 class Utilities {
-  constructor() {}
-
   dateToLocale(dateString: string) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' }
-    const newDate = new Date(dateString)
-    return newDate.toLocaleDateString('de-DE', options)
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+
+    return new Date(dateString).toLocaleDateString('de-DE', options);
   }
 
   dateYearOnly(dateString: string) {
-    const newDate = new Date(dateString)
-    return newDate.getFullYear()
+    return new Date(dateString).getFullYear();
   }
-
 }
 
 export const Utils = new Utilities();

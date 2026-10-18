@@ -7,7 +7,7 @@
 
 ## Methods
 
-### `showMore(amount: any) => Promise<void>`
+### `showMore(amount: number) => Promise<void>`
 
 
 
