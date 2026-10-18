@@ -1,1 +1,1 @@
-export { Components, JSX } from './types/components';
+export { Components, JSX } from './components';
