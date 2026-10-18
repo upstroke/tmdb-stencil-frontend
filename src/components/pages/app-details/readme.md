@@ -7,11 +7,10 @@
 
 ## Properties
 
-| Property     | Attribute     | Description | Type            | Default     |
-| ------------ | ------------- | ----------- | --------------- | ----------- |
-| `elementID`  | `element-i-d` |             | `string`        | `undefined` |
-| `history`    | --            |             | `RouterHistory` | `undefined` |
-| `media_type` | `media_type`  |             | `string`        | `undefined` |
+| Property    | Attribute    | Description | Type     | Default     |
+| ----------- | ------------ | ----------- | -------- | ----------- |
+| `id`        | `id`         |             | `string` | `undefined` |
+| `mediaType` | `media-type` |             | `string` | `undefined` |
 
 
 ----------------------------------------------

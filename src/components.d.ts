@@ -5,39 +5,42 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { RouterHistory } from "@stencil/router";
+import { AppRoute } from "./components/app-outlet";
 export namespace Components {
     interface AppDetails {
-        "elementID": string;
-        "history": RouterHistory;
-        "media_type": string;
+        "id": string;
+        "mediaType": string;
+    }
+    interface AppLink {
+        "exact": boolean;
+        "href": string;
     }
     interface AppMain {
         "showMore": (amount: number) => Promise<void>;
     }
     interface AppMovies {
     }
+    interface AppOutlet {
+        "routes": AppRoute[];
+    }
     interface AppRoot {
     }
     interface AppTvshows {
     }
     interface DefaultCard {
-        "history": RouterHistory;
         "item": any;
     }
     interface FeaturedCard {
         "elementId": string;
-        "goTo": (e: any, route: any, data: any) => Promise<void>;
-        "history": RouterHistory;
+        "goTo": (event: MouseEvent, route: string) => Promise<void>;
         "mediaType": string;
     }
     interface MainFooter {
     }
     interface TypeaheadSearch {
         "getSearchResult": (term: string) => Promise<void>;
-        "goTo": (e: any, route: any, data: any) => Promise<void>;
-        "history": RouterHistory;
-        "onSearchInput": (val: string) => Promise<void>;
+        "goTo": (event: MouseEvent, route: string) => Promise<void>;
+        "onSearchInput": (value: string) => Promise<void>;
     }
 }
 declare global {
@@ -46,6 +49,12 @@ declare global {
     var HTMLAppDetailsElement: {
         prototype: HTMLAppDetailsElement;
         new (): HTMLAppDetailsElement;
+    };
+    interface HTMLAppLinkElement extends Components.AppLink, HTMLStencilElement {
+    }
+    var HTMLAppLinkElement: {
+        prototype: HTMLAppLinkElement;
+        new (): HTMLAppLinkElement;
     };
     interface HTMLAppMainElement extends Components.AppMain, HTMLStencilElement {
     }
@@ -58,6 +67,12 @@ declare global {
     var HTMLAppMoviesElement: {
         prototype: HTMLAppMoviesElement;
         new (): HTMLAppMoviesElement;
+    };
+    interface HTMLAppOutletElement extends Components.AppOutlet, HTMLStencilElement {
+    }
+    var HTMLAppOutletElement: {
+        prototype: HTMLAppOutletElement;
+        new (): HTMLAppOutletElement;
     };
     interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {
     }
@@ -97,8 +112,10 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "app-details": HTMLAppDetailsElement;
+        "app-link": HTMLAppLinkElement;
         "app-main": HTMLAppMainElement;
         "app-movies": HTMLAppMoviesElement;
+        "app-outlet": HTMLAppOutletElement;
         "app-root": HTMLAppRootElement;
         "app-tvshows": HTMLAppTvshowsElement;
         "default-card": HTMLDefaultCardElement;
@@ -109,36 +126,41 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AppDetails {
-        "elementID"?: string;
-        "history"?: RouterHistory;
-        "media_type"?: string;
+        "id"?: string;
+        "mediaType"?: string;
+    }
+    interface AppLink {
+        "exact"?: boolean;
+        "href": string;
     }
     interface AppMain {
     }
     interface AppMovies {
+    }
+    interface AppOutlet {
+        "routes"?: AppRoute[];
     }
     interface AppRoot {
     }
     interface AppTvshows {
     }
     interface DefaultCard {
-        "history"?: RouterHistory;
         "item"?: any;
     }
     interface FeaturedCard {
         "elementId"?: string;
-        "history"?: RouterHistory;
         "mediaType"?: string;
     }
     interface MainFooter {
     }
     interface TypeaheadSearch {
-        "history"?: RouterHistory;
     }
     interface IntrinsicElements {
         "app-details": AppDetails;
+        "app-link": AppLink;
         "app-main": AppMain;
         "app-movies": AppMovies;
+        "app-outlet": AppOutlet;
         "app-root": AppRoot;
         "app-tvshows": AppTvshows;
         "default-card": DefaultCard;
@@ -152,8 +174,10 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "app-details": LocalJSX.AppDetails & JSXBase.HTMLAttributes<HTMLAppDetailsElement>;
+            "app-link": LocalJSX.AppLink & JSXBase.HTMLAttributes<HTMLAppLinkElement>;
             "app-main": LocalJSX.AppMain & JSXBase.HTMLAttributes<HTMLAppMainElement>;
             "app-movies": LocalJSX.AppMovies & JSXBase.HTMLAttributes<HTMLAppMoviesElement>;
+            "app-outlet": LocalJSX.AppOutlet & JSXBase.HTMLAttributes<HTMLAppOutletElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
             "app-tvshows": LocalJSX.AppTvshows & JSXBase.HTMLAttributes<HTMLAppTvshowsElement>;
             "default-card": LocalJSX.DefaultCard & JSXBase.HTMLAttributes<HTMLDefaultCardElement>;

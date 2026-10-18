@@ -7,16 +7,15 @@
 
 ## Properties
 
-| Property    | Attribute    | Description | Type            | Default     |
-| ----------- | ------------ | ----------- | --------------- | ----------- |
-| `elementId` | `element-id` |             | `string`        | `undefined` |
-| `history`   | --           |             | `RouterHistory` | `undefined` |
-| `mediaType` | `media-type` |             | `string`        | `undefined` |
+| Property    | Attribute    | Description | Type     | Default     |
+| ----------- | ------------ | ----------- | -------- | ----------- |
+| `elementId` | `element-id` |             | `string` | `undefined` |
+| `mediaType` | `media-type` |             | `string` | `undefined` |
 
 
 ## Methods
 
-### `goTo(e: any, route: any, data: any) => Promise<void>`
+### `goTo(event: MouseEvent, route: string) => Promise<void>`
 
 
 
