@@ -9,6 +9,9 @@
       "dom",
       "es2017"
     ],
+    "types": [
+      "node"
+    ],
     "moduleResolution": "node",
     "module": "esnext",
     "target": "es2017",

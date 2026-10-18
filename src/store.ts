@@ -66,6 +66,3 @@ store.onChange('setSearchResultsVisible', (value) => {
 });
 
 export const AppState = store.state;
-export const getStateProp = store.get;
-export const setStateProp = store.set;
-export const resetAppState = store.reset;
