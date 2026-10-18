@@ -15,9 +15,17 @@ class FetchAPI {
 
   constructor() {}
 
+  private getRequestOptions(): RequestInit {
+    return {
+      headers: {
+        Authorization: `Bearer ${process.env.APP_PROXY_ACCESS_TOKEN}`,
+      },
+    };
+  }
+
   async fetchRequestJSON(url: string) {
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, this.getRequestOptions());
 
       if (response.status === 404) {
         return null;

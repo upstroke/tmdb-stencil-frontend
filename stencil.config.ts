@@ -11,6 +11,7 @@ if (env.error) {
 
 const language = process.env.APP_LANG ?? 'de-DE';
 const apiBaseUrl = process.env.APP_API_BASE_URL ?? '/api/tmdb';
+const proxyAccessToken = process.env.APP_PROXY_ACCESS_TOKEN ?? '';
 
 export const config: Config = {
   namespace: 'tmdb-stencil-frontend',
@@ -21,6 +22,7 @@ export const config: Config = {
       values: {
         'process.env.APP_LANG': JSON.stringify(language),
         'process.env.APP_API_BASE_URL': JSON.stringify(apiBaseUrl),
+        'process.env.APP_PROXY_ACCESS_TOKEN': JSON.stringify(proxyAccessToken),
       },
     }),
   ],
