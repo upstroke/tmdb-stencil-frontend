@@ -1,96 +1,217 @@
-![Built With Stencil](https://img.shields.io/badge/-Built%20With%20Stencil-16161d.svg?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI%2BCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI%2BCgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU%2BCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00MjQuNywzNzMuOWMwLDM3LjYtNTUuMSw2OC42LTkyLjcsNjguNkgxODAuNGMtMzcuOSwwLTkyLjctMzAuNy05Mi43LTY4LjZ2LTMuNmgzMzYuOVYzNzMuOXoiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTQyNC43LDI5Mi4xSDE4MC40Yy0zNy42LDAtOTIuNy0zMS05Mi43LTY4LjZ2LTMuNkgzMzJjMzcuNiwwLDkyLjcsMzEsOTIuNyw2OC42VjI5Mi4xeiIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNDI0LjcsMTQxLjdIODcuN3YtMy42YzAtMzcuNiw1NC44LTY4LjYsOTIuNy02OC42SDMzMmMzNy45LDAsOTIuNywzMC43LDkyLjcsNjguNlYxNDEuN3oiLz4KPC9zdmc%2BCg%3D%3D&colorA=16161d&style=flat-square)
+# TMDB Stencil Frontend
 
-# TMDb API key
-This site makes use of the TMDb API. Hence you need to get an API key. You can get the key at their website at: https://developers.themoviedb.org/3/
-Alter the .env file and use your API key with the API_KEY variable.
+A Stencil-based frontend for browsing trending movies and TV shows using [The Movie Database (TMDB)](https://www.themoviedb.org/).
 
-## Environment variables
+TMDB API credentials are handled by a local Node.js proxy. The browser never receives the TMDB API key directly.
 
-Create a local `.env` file in the project root:
+## Requirements
+
+- Node.js 20 or newer
+- npm
+- A TMDB API key: [TMDB API settings](https://www.themoviedb.org/settings/api)
+
+Use the **API Key (v3 auth)** value, not the **Read Access Token (v4 auth)**.
+
+## Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Create your local environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-Then add your own TMDB API key.
+3. Choose a proxy access token.
 
-| Variable      | Required | Description                                                                 |
-|---------------|----------|-----------------------------------------------------------------------------|
-| `APP_API_KEY` | Yes      | TMDB API key (`API Key (v3 auth)`). Used as the `api_key` query parameter.  |
-| `APP_LANG`    | No       | TMDB request language, for example `de-DE` or `en-US`. Defaults to `de-DE`. |
+For local development, you can choose any non-trivial value yourself. It only has to be long enough and difficult to guess. For example:
 
-Never commit your real `.env` file or TMDB API key.
-
-# Stencil Component Starter
-
-This is a starter project for building a standalone Web Component using Stencil.
-
-Stencil is also great for building entire apps. For that, use the [stencil-app-starter](https://github.com/ionic-team/stencil-app-starter) instead.
-
-# Stencil
-
-Stencil is a compiler for building fast web apps using Web Components.
-
-Stencil combines the best concepts of the most popular frontend frameworks into a compile-time rather than run-time tool.  Stencil takes TypeScript, JSX, a tiny virtual DOM layer, efficient one-way data binding, an asynchronous rendering pipeline (similar to React Fiber), and lazy-loading out of the box, and generates 100% standards-based Web Components that run in any browser supporting the Custom Elements v1 spec.
-
-Stencil components are just Web Components, so they work in any major framework or with no framework at all.
-
-## Getting Started
-
-To start building a new web component using Stencil, clone this repo to a new directory:
-
-```bash
-git clone https://github.com/ionic-team/stencil-component-starter.git my-component
-cd my-component
-git remote rm origin
+```env
+PROXY_ACCESS_TOKEN=tmdb-local_a7f3k9x2q8m4v1b6n0p5r8t3w6y9z2c4
+APP_PROXY_ACCESS_TOKEN=tmdb-local_a7f3k9x2q8m4v1b6n0p5r8t3w6y9z2c4
 ```
 
-and run:
+For a publicly deployed proxy, generate a cryptographically random token instead:
 
 ```bash
-npm install
+node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+```
+
+This creates a 64-character hexadecimal token with high entropy. Do not use short, obvious, or reusable values such as `test`, `123456`, your name, or a timestamp.
+
+4. Add your credentials to `.env`:
+
+```env
+APP_API_KEY=your_tmdb_v3_api_key
+PROXY_ACCESS_TOKEN=your_proxy_token
+APP_PROXY_ACCESS_TOKEN=your_proxy_token
+PROXY_ALLOWED_ORIGINS=http://localhost:3333
+APP_LANG=de-DE
+APP_API_BASE_URL=http://localhost:3001/api/tmdb
+PROXY_PORT=3001
+```
+
+`PROXY_ACCESS_TOKEN` and `APP_PROXY_ACCESS_TOKEN` must contain exactly the same value.
+
+Never commit your real `.env` file, TMDB API key, or proxy access token.
+
+## Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `APP_API_KEY` | Yes | TMDB API key (`API Key (v3 auth)`). Used only by the Node proxy. |
+| `PROXY_ACCESS_TOKEN` | Yes | Token required by the proxy. Used only by the Node proxy. |
+| `APP_PROXY_ACCESS_TOKEN` | Yes | The same proxy token, embedded into the frontend build. |
+| `PROXY_ALLOWED_ORIGINS` | Yes | Comma-separated browser origins allowed to call the proxy. |
+| `APP_LANG` | No | TMDB request language, for example `de-DE` or `en-US`. Defaults to `de-DE`. |
+| `APP_API_BASE_URL` | No | API base URL used by the Stencil frontend. Defaults to `http://localhost:3001/api/tmdb`. |
+| `PROXY_PORT` | No | Port used by the local TMDB proxy. Defaults to `3001`. |
+
+## Development
+
+Start both the TMDB proxy and the Stencil development server with one command:
+
+```bash
+npm run dev
+```
+
+This runs:
+
+- `node server/tmdb-proxy.mjs`
+- `stencil build --dev --watch --serve`
+
+Press `Ctrl + C` to stop both processes.
+
+You can also run them separately:
+
+```bash
+npm run proxy
 npm start
 ```
 
-To build the component for production, run:
+## Proxy security
+
+The proxy requires this header on every TMDB request:
+
+```http
+Authorization: Bearer your_proxy_token
+```
+
+It also only allows browser origins listed in `PROXY_ALLOWED_ORIGINS`. For local development, the Stencil dev server normally runs at `http://localhost:3333`.
+
+### What the token protects against
+
+The proxy token prevents other websites from calling your proxy from a browser and stops requests that do not provide the expected token. This protects your TMDB quota from casual or automated third-party use.
+
+### What the token does not do
+
+The proxy token is **not a true server-side secret**. Because the frontend must send it with every request, it is visible in the built frontend bundle and in browser developer tools.
+
+Therefore:
+
+- It is sufficient as a basic protection for a local development proxy.
+- It is useful as a first barrier for a public proxy.
+- It does not replace real user authentication, sessions, short-lived backend-issued tokens, or rate limiting.
+- Anyone who inspects your deployed frontend can extract the token and call the proxy directly.
+
+The TMDB API key itself remains server-side only. It is never included in browser bundles, browser requests, or browser caches.
+
+## Production build
+
+Build the frontend for production:
 
 ```bash
 npm run build
 ```
 
-To run the unit tests for the components, run:
+The deployable static website is generated in `www/`.
 
-```bash
-npm test
+Before building for production, configure:
+
+```env
+APP_API_BASE_URL=https://your-proxy-domain.example/api/tmdb
+APP_PROXY_ACCESS_TOKEN=your_production_proxy_token
+PROXY_ALLOWED_ORIGINS=https://your-frontend-domain.example
 ```
 
-Need help? Check out our docs [here](https://stenciljs.com/docs/my-first-component).
+The production frontend does not need or receive `APP_API_KEY`; the proxy adds it server-side.
 
+## TMDB proxy
+
+The proxy is implemented in `server/tmdb-proxy.mjs`.
+
+It forwards requests such as:
+
+```text
+/api/tmdb/trending/all/week
+```
+
+to TMDB:
+
+```text
+https://api.themoviedb.org/3/trending/all/week
+```
+
+and appends your `APP_API_KEY` as the TMDB `api_key` parameter.
+
+For production, deploy the proxy separately and configure `APP_API_KEY`, `PROXY_ACCESS_TOKEN`, and `PROXY_ALLOWED_ORIGINS` as environment variables or secrets in your hosting provider.
+
+# Stencil Component Starter
+
+This project is based on the [Stencil Component Starter](https://github.com/ionic-team/stencil-component-starter).
+
+Stencil is a compiler for building fast web apps using Web Components. It generates standards-based Web Components that work in any major framework or without a framework.
 
 ## Naming Components
 
-When creating new component tags, we recommend _not_ using `stencil` in the component name (ex: `<stencil-datepicker>`). This is because the generated component has little to nothing to do with Stencil; it's just a web component!
-
-Instead, use a prefix that fits your company or any name for a group of related components. For example, all of the Ionic generated web components use the prefix `ion`.
-
+When creating new component tags, avoid using `stencil` in the component name, for example `<stencil-datepicker>`. Use a project- or company-specific prefix instead.
 
 ## Using this component
 
-There are three strategies we recommend for using web components built with Stencil.
+There are three recommended strategies for using web components built with Stencil.
 
-The first step for all three of these strategies is to [publish to NPM](https://docs.npmjs.com/getting-started/publishing-npm-packages).
+The first step for all three strategies is to [publish to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages).
 
 ### Script tag
 
-- Put a script tag similar to this `<script src='https://unpkg.com/my-component@0.0.1/dist/mycomponent.js'></script>` in the head of your index.html
-- Then you can use the element anywhere in your template, JSX, html etc
+Add a script tag to your `index.html`:
 
-### Node Modules
-- Run `npm install my-component --save`
-- Put a script tag similar to this `<script src='node_modules/my-component/dist/mycomponent.js'></script>` in the head of your index.html
-- Then you can use the element anywhere in your template, JSX, html etc
+```html
+<script src="https://unpkg.com/my-component@0.0.1/dist/mycomponent.js"></script>
+```
 
-### In a stencil-starter app
-- Run `npm install my-component --save`
-- Add an import to the npm packages `import my-component;`
-- Then you can use the element anywhere in your template, JSX, html etc
+Then use the element anywhere in your template, JSX, or HTML.
+
+### Node modules
+
+Install the package:
+
+```bash
+npm install my-component --save
+```
+
+Add a script tag:
+
+```html
+<script src="node_modules/my-component/dist/mycomponent.js"></script>
+```
+
+### In a Stencil app
+
+Install the package:
+
+```bash
+npm install my-component --save
+```
+
+Import it in your application:
+
+```ts
+import 'my-component';
+```
+
+Need help? Check out the [Stencil documentation](https://stenciljs.com/docs/my-first-component).

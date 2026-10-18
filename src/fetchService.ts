@@ -15,9 +15,17 @@ class FetchAPI {
 
   constructor() {}
 
+  private getRequestOptions(): RequestInit {
+    return {
+      headers: {
+        Authorization: `Bearer ${process.env.APP_PROXY_ACCESS_TOKEN}`,
+      },
+    };
+  }
+
   async fetchRequestJSON(url: string) {
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, this.getRequestOptions());
 
       if (response.status === 404) {
         return null;
@@ -60,7 +68,7 @@ class FetchAPI {
     const endpoint = feedEndpoints[type];
 
     const data = await this.fetchRequestJSON(
-      `${AppState.baseUrl}/${endpoint}?api_key=${AppState.apiKey}&language=${AppState.language}&page=${nextPage}`
+      `${AppState.baseUrl}/${endpoint}?language=${AppState.language}&page=${nextPage}`
     );
 
     if (!data?.results?.length) {
@@ -78,7 +86,7 @@ class FetchAPI {
     switch (type) {
       case 'trending':
         if(!AppState.trending){
-          this.fetchRequestJSON(`${AppState.baseUrl}/trending/all/week?api_key=${AppState.apiKey}&language=${AppState.language}`)
+          this.fetchRequestJSON(`${AppState.baseUrl}/trending/all/week?language=${AppState.language}`)
             .then((data) => {
               AppState.trending = data
             });
@@ -86,7 +94,7 @@ class FetchAPI {
         break;
       case 'movie':
         if(!AppState.movies) {
-          this.fetchRequestJSON(`${AppState.baseUrl}/trending/movie/week?api_key=${AppState.apiKey}&language=${AppState.language}&sort_by=popularity.desc`)
+          this.fetchRequestJSON(`${AppState.baseUrl}/trending/movie/week?language=${AppState.language}&sort_by=popularity.desc`)
             .then((data) => {
               AppState.movies = data
             })
@@ -94,7 +102,7 @@ class FetchAPI {
         break;
       case 'tv':
           if(!AppState.tvShows) {
-            this.fetchRequestJSON(`${AppState.baseUrl}/trending/tv/week?api_key=${AppState.apiKey}&language=${AppState.language}&sort_by=popularity.desc`)
+            this.fetchRequestJSON(`${AppState.baseUrl}/trending/tv/week?language=${AppState.language}&sort_by=popularity.desc`)
               .then((data) => {
                 AppState.tvShows = data
               })
@@ -114,7 +122,7 @@ class FetchAPI {
     AppState.detailsData = undefined;
 
     const details = await this.fetchRequestJSON(
-      `${AppState.baseUrl}/${type}/${id}?api_key=${AppState.apiKey}&language=${AppState.language}`
+      `${AppState.baseUrl}/${type}/${id}?language=${AppState.language}`
     );
 
     if (requestId !== this.detailsRequestId) {
@@ -127,7 +135,7 @@ class FetchAPI {
     }
 
     const credits = await this.fetchRequestJSON(
-      `${AppState.baseUrl}/${type}/${id}/credits?api_key=${AppState.apiKey}`
+      `${AppState.baseUrl}/${type}/${id}/credits`
     );
 
     if (requestId !== this.detailsRequestId) {
@@ -140,9 +148,9 @@ class FetchAPI {
   }
 
   getSearchResults(term: string) {
-    this.fetchRequestJSON(`${AppState.baseUrl}/search/movie?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
+    this.fetchRequestJSON(`${AppState.baseUrl}/search/movie?language=${AppState.language}&query=${term}`)
       .then((data1) => {
-        this.fetchRequestJSON(`${AppState.baseUrl}/search/tv?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
+        this.fetchRequestJSON(`${AppState.baseUrl}/search/tv?language=${AppState.language}&query=${term}`)
           .then((data2) => {
             AppState.searchData = {'movies': [...data1.results], 'tvShows': [...data2.results]}
           })
