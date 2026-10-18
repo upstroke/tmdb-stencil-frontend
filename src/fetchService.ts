@@ -1,34 +1,80 @@
 import { AppState } from './store'
 
+type FeedType = 'trending' | 'movies' | 'tvShows';
+
+type ApiFeedType = 'trending' | 'movie' | 'tv';
+
+const feedEndpoints = {
+  trending: 'trending/all/week',
+  movies: 'trending/movie/week',
+  tvShows: 'trending/tv/week',
+} as const;
+
 class FetchAPI {
+  private detailsRequestId = 0;
+
   constructor() {}
 
   async fetchRequestJSON(url: string) {
     try {
       const response = await fetch(url);
-      const requestData = await response.json();
-      this.handleErrors(response);
-      return requestData;
 
+      if (response.status === 404) {
+        return null;
+      }
+
+      this.handleErrors(response);
+      return await response.json();
     } catch (err) {
       console.log('Error: ', err);
+      return null;
     }
-
   }
 
-  handleErrors(response) {
+  handleErrors(response: Response) {
     if (!response.ok) {
       throw new Error(response.statusText);
     }
   }
 
-  showMore(type: string, amount: number) {
-    if(AppState[type].results.length > AppState[`${type}AmountToShow`]){
-      AppState[`${type}AmountToShow`] = AppState[`${type}AmountToShow`] + amount
+  async showMore(type: FeedType, amount: number) {
+    const feed = AppState[type] as any;
+    const amountKey = `${type}AmountToShow` as 'trendingAmountToShow' | 'moviesAmountToShow' | 'tvShowsAmountToShow';
+
+    if (!feed) {
+      return;
     }
+
+    const nextAmount = AppState[amountKey] + amount;
+    AppState[amountKey] = nextAmount;
+
+    if (nextAmount < feed.results.length) {
+      return;
+    }
+
+    if (feed.page >= feed.total_pages) {
+      return;
+    }
+
+    const nextPage = feed.page + 1;
+    const endpoint = feedEndpoints[type];
+
+    const data = await this.fetchRequestJSON(
+      `${AppState.baseUrl}/${endpoint}?api_key=${AppState.apiKey}&language=${AppState.language}&page=${nextPage}`
+    );
+
+    if (!data?.results?.length) {
+      return;
+    }
+
+    AppState[type] = {
+      ...feed,
+      page: data.page,
+      results: [...feed.results, ...data.results],
+    };
   }
 
-  getAll(type: string) {
+  getAll(type: ApiFeedType) {
     switch (type) {
       case 'trending':
         if(!AppState.trending){
@@ -57,25 +103,48 @@ class FetchAPI {
     }
   }
 
-  getDetails(type: string, id: string) {
-    AppState.detailsData = ''; // reset details data
-    this.fetchRequestJSON(`${AppState.baseUrl}/${type}/${id}?api_key=${AppState.apiKey}&language=${AppState.language}`)
-      .then((data1) => {
-        this.fetchRequestJSON(`${AppState.baseUrl}/${type}/${id}/credits?api_key=${AppState.apiKey}`)
-          .then((data2) => {
-            AppState.detailsData = {...data1,...data2}
-            // console.log('detailsData: ',AppState.detailsData);
-          })
-      });
+  async getDetails(type: string, id: string) {
+    const requestId = ++this.detailsRequestId;
+
+    if (!/^\d+$/.test(id)) {
+      AppState.detailsData = null;
+      return;
+    }
+
+    AppState.detailsData = undefined;
+
+    const details = await this.fetchRequestJSON(
+      `${AppState.baseUrl}/${type}/${id}?api_key=${AppState.apiKey}&language=${AppState.language}`
+    );
+
+    if (requestId !== this.detailsRequestId) {
+      return;
+    }
+
+    if (!details || !details.id) {
+      AppState.detailsData = null;
+      return;
+    }
+
+    const credits = await this.fetchRequestJSON(
+      `${AppState.baseUrl}/${type}/${id}/credits?api_key=${AppState.apiKey}`
+    );
+
+    if (requestId !== this.detailsRequestId) {
+      return;
+    }
+
+    AppState.detailsData = credits
+      ? { ...details, ...credits }
+      : details;
   }
 
-  getSeachResults(term: string) {
+  getSearchResults(term: string) {
     this.fetchRequestJSON(`${AppState.baseUrl}/search/movie?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
       .then((data1) => {
         this.fetchRequestJSON(`${AppState.baseUrl}/search/tv?api_key=${AppState.apiKey}&language=${AppState.language}&query=${term}`)
           .then((data2) => {
             AppState.searchData = {'movies': [...data1.results], 'tvShows': [...data2.results]}
-            // console.log('searchData: ',AppState.searchData);
           })
       })
   }

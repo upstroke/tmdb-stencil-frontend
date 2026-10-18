@@ -9,7 +9,7 @@
 
 | Property    | Attribute    | Description | Type     | Default     |
 | ----------- | ------------ | ----------- | -------- | ----------- |
-| `id`        | `id`         |             | `string` | `undefined` |
+| `elementId` | `element-id` |             | `string` | `undefined` |
 | `mediaType` | `media-type` |             | `string` | `undefined` |
 
 

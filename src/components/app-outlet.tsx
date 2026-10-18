@@ -64,7 +64,7 @@ export class AppOutlet {
 
     return (
       <Host>
-        <ComponentTag {...params} />
+        <ComponentTag key={this.currentPath} {...params} />
       </Host>
     );
   }
