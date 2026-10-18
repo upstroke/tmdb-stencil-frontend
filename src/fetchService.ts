@@ -1,5 +1,9 @@
 import { AppState } from './store'
 
+type FeedType = 'trending' | 'movie' | 'tv';
+
+type FeedAmountKey = 'trendingAmountToShow' | 'moviesAmountToShow' | 'tvShowsAmountToShow';
+
 class FetchAPI {
   private detailsRequestId = 0;
 
@@ -21,19 +25,24 @@ class FetchAPI {
     }
   }
 
-  handleErrors(response) {
+  handleErrors(response: Response) {
     if (!response.ok) {
       throw new Error(response.statusText);
     }
   }
 
-  showMore(type: string, amount: number) {
-    if(AppState[type].results.length > AppState[`${type}AmountToShow`]){
-      AppState[`${type}AmountToShow`] = AppState[`${type}AmountToShow`] + amount
+  showMore(type: FeedType, amount: number) {
+    const feed = AppState[type];
+    const amountKey: FeedAmountKey = `${type}AmountToShow`;
+
+    if (!feed || feed.results.length <= AppState[amountKey]) {
+      return;
     }
+
+    AppState[amountKey] = AppState[amountKey] + amount;
   }
 
-  getAll(type: string) {
+  getAll(type: FeedType) {
     switch (type) {
       case 'trending':
         if(!AppState.trending){
