@@ -65,7 +65,7 @@ class FetchAPI {
       return;
     }
 
-    AppState.detailsData = null;
+    AppState.detailsData = undefined;
 
     const details = await this.fetchRequestJSON(
       `${AppState.baseUrl}/${type}/${id}?api_key=${AppState.apiKey}&language=${AppState.language}`
@@ -76,6 +76,7 @@ class FetchAPI {
     }
 
     if (!details || !details.id) {
+      AppState.detailsData = null;
       return;
     }
 
