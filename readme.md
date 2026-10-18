@@ -26,23 +26,36 @@ npm install
 cp .env.example .env
 ```
 
-3. Generate a random proxy access token:
+3. Choose a proxy access token.
+
+For local development, you can choose any non-trivial value yourself. It only has to be long enough and difficult to guess. For example:
+
+```env
+PROXY_ACCESS_TOKEN=tmdb-local_a7f3k9x2q8m4v1b6n0p5r8t3w6y9z2c4
+APP_PROXY_ACCESS_TOKEN=tmdb-local_a7f3k9x2q8m4v1b6n0p5r8t3w6y9z2c4
+```
+
+For a publicly deployed proxy, generate a cryptographically random token instead:
 
 ```bash
 node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 ```
 
+This creates a 64-character hexadecimal token with high entropy. Do not use short, obvious, or reusable values such as `test`, `123456`, your name, or a timestamp.
+
 4. Add your credentials to `.env`:
 
 ```env
 APP_API_KEY=your_tmdb_v3_api_key
-PROXY_ACCESS_TOKEN=your_generated_proxy_token
-APP_PROXY_ACCESS_TOKEN=your_generated_proxy_token
+PROXY_ACCESS_TOKEN=your_proxy_token
+APP_PROXY_ACCESS_TOKEN=your_proxy_token
 PROXY_ALLOWED_ORIGINS=http://localhost:3333
 APP_LANG=de-DE
 APP_API_BASE_URL=http://localhost:3001/api/tmdb
 PROXY_PORT=3001
 ```
+
+`PROXY_ACCESS_TOKEN` and `APP_PROXY_ACCESS_TOKEN` must contain exactly the same value.
 
 Never commit your real `.env` file, TMDB API key, or proxy access token.
 
@@ -51,7 +64,7 @@ Never commit your real `.env` file, TMDB API key, or proxy access token.
 | Variable | Required | Description |
 |---|---|---|
 | `APP_API_KEY` | Yes | TMDB API key (`API Key (v3 auth)`). Used only by the Node proxy. |
-| `PROXY_ACCESS_TOKEN` | Yes | Secret token required by the proxy. Used only by the Node proxy. |
+| `PROXY_ACCESS_TOKEN` | Yes | Token required by the proxy. Used only by the Node proxy. |
 | `APP_PROXY_ACCESS_TOKEN` | Yes | The same proxy token, embedded into the frontend build. |
 | `PROXY_ALLOWED_ORIGINS` | Yes | Comma-separated browser origins allowed to call the proxy. |
 | `APP_LANG` | No | TMDB request language, for example `de-DE` or `en-US`. Defaults to `de-DE`. |
@@ -85,14 +98,27 @@ npm start
 The proxy requires this header on every TMDB request:
 
 ```http
-Authorization: Bearer your_generated_proxy_token
+Authorization: Bearer your_proxy_token
 ```
 
 It also only allows browser origins listed in `PROXY_ALLOWED_ORIGINS`. For local development, the Stencil dev server normally runs at `http://localhost:3333`.
 
-This prevents other websites from calling your proxy from a browser. It does not make the proxy token a true server-side secret: because the frontend must send it, the token is visible in the built frontend. Its purpose is to stop casual third-party use and to protect your TMDB quota.
+### What the token protects against
 
-The TMDB API key itself remains server-side only and is never included in browser bundles or browser requests.
+The proxy token prevents other websites from calling your proxy from a browser and stops requests that do not provide the expected token. This protects your TMDB quota from casual or automated third-party use.
+
+### What the token does not do
+
+The proxy token is **not a true server-side secret**. Because the frontend must send it with every request, it is visible in the built frontend bundle and in browser developer tools.
+
+Therefore:
+
+- It is sufficient as a basic protection for a local development proxy.
+- It is useful as a first barrier for a public proxy.
+- It does not replace real user authentication, sessions, short-lived backend-issued tokens, or rate limiting.
+- Anyone who inspects your deployed frontend can extract the token and call the proxy directly.
+
+The TMDB API key itself remains server-side only. It is never included in browser bundles, browser requests, or browser caches.
 
 ## Production build
 
