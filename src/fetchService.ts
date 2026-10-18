@@ -8,6 +8,11 @@ class FetchAPI {
   async fetchRequestJSON(url: string) {
     try {
       const response = await fetch(url);
+
+      if (response.status === 404) {
+        return null;
+      }
+
       this.handleErrors(response);
       return await response.json();
     } catch (err) {
