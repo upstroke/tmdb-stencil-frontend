@@ -9,8 +9,8 @@ import { AppRoute } from "./components/app-outlet";
 export { AppRoute } from "./components/app-outlet";
 export namespace Components {
     interface AppDetails {
-        "elementId": string;
-        "mediaType": string;
+        "elementId"?: string;
+        "mediaType"?: string;
     }
     interface AppLink {
         "exact": boolean;
@@ -32,9 +32,9 @@ export namespace Components {
         "item": any;
     }
     interface FeaturedCard {
-        "elementId": string;
+        "elementId"?: string;
         "goTo": (event: MouseEvent, route: string) => Promise<void>;
-        "mediaType": string;
+        "mediaType"?: string;
     }
     interface MainFooter {
     }
@@ -146,7 +146,7 @@ declare namespace LocalJSX {
     interface AppTvshows {
     }
     interface DefaultCard {
-        "item"?: any;
+        "item": any;
     }
     interface FeaturedCard {
         "elementId"?: string;

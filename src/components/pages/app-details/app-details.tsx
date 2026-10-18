@@ -78,7 +78,7 @@ export class AppDetails {
   }
 
   connectedCallback() {
-    void FetchService.getDetails(this.mediaType, this.elementId);
+    void FetchService.getDetails(this.mediaType as string, this.elementId as string);
   }
 
   render() {
@@ -102,7 +102,7 @@ export class AppDetails {
           <div class="ui inverted vertical center aligned masthead segment">
             <div class="masthead-image">
               <img
-                src={detailsData.backdrop_path !== null ? `http://image.tmdb.org/t/p/original/${detailsData.backdrop_path}` : 'assets/not-available.png'}
+                src={detailsData.backdrop_path !== null ? `https://image.tmdb.org/t/p/original/${detailsData.backdrop_path}` : 'assets/not-available.png'}
                 alt=""
               />
             </div>
@@ -111,7 +111,7 @@ export class AppDetails {
                 {detailsData.title ? detailsData.title : detailsData.name}
                 {detailsData.poster_path ? (
                   <div class="poster">
-                    <img src={`http://image.tmdb.org/t/p/w342/${detailsData.poster_path}`} alt="" />
+                    <img src={`https://image.tmdb.org/t/p/w342/${detailsData.poster_path}`} alt="" />
                   </div>
                 ) : null}
               </h1>
@@ -186,7 +186,7 @@ export class AppDetails {
               )}
 
               <div class="hidden spacer"></div>
-              {this.getDetailsInfo(this.mediaType, detailsData)}
+              {this.getDetailsInfo(this.mediaType as string, detailsData)}
               <div class="hidden spacer"></div>
 
               <div class="event">

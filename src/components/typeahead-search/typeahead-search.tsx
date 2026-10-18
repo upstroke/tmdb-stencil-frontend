@@ -116,7 +116,7 @@ export class TypeaheadSearch {
                             {element.vote_average}
                           </small>
                           <div class="description">
-                            <small>{Utils.dateYearOnly(element.release_date)}</small>
+                            <small>{Utils.dateYearOnly(element.release_date as string)}</small>
                           </div>
                         </div>
                       </a>
