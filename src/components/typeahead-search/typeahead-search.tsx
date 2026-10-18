@@ -10,7 +10,7 @@ import { AppState } from '../../store';
   shadow: false,
 })
 export class TypeaheadSearch {
-  @Element() host: HTMLElement;
+  @Element() host!: HTMLElement;
 
   private searchInput: HTMLInputElement;
 

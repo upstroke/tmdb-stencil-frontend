@@ -8,7 +8,7 @@ import { Utils } from '../../../utils';
   shadow: false,
 })
 export class DefaultCard {
-  @Prop() item: any;
+  @Prop() item!: any;
 
   private goTo(event: MouseEvent, route: string) {
     event.preventDefault();
