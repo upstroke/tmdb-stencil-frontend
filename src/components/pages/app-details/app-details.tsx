@@ -9,8 +9,8 @@ import { Utils } from '../../../utils';
   shadow: false,
 })
 export class AppDetails {
-  @Prop() elementId!: string;
-  @Prop() mediaType!: string;
+  @Prop() elementId?: string;
+  @Prop() mediaType?: string;
 
   @Watch('elementId')
   @Watch('mediaType')
