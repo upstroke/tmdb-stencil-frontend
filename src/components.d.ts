@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { AppRoute } from "./components/app-outlet";
+export { AppRoute } from "./components/app-outlet";
 export namespace Components {
     interface AppDetails {
         "id": string;
