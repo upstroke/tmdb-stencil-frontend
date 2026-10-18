@@ -1,4 +1,4 @@
-import { Component, h, Host, Method } from '@stencil/core';
+import { Component, Element, h, Host, Listen, Method, State } from '@stencil/core';
 import { navigate } from '../../lib/router/router';
 import { FetchService } from '../../fetchService';
 import { Utils } from '../../utils';
@@ -10,6 +10,24 @@ import { AppState } from '../../store';
   shadow: false,
 })
 export class TypeaheadSearch {
+  @Element() host: HTMLElement;
+
+  @State() private searchInput: HTMLInputElement;
+
+  @Listen('keydown', { target: 'document' })
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      AppState.setSearchResultsVisible = false;
+    }
+  }
+
+  @Listen('click', { target: 'document' })
+  handleDocumentClick(event: MouseEvent) {
+    if (!this.host.contains(event.target as Node)) {
+      AppState.setSearchResultsVisible = false;
+    }
+  }
+
   @Method()
   async onSearchInput(value: string) {
     if (value.length > 3) {
@@ -39,6 +57,22 @@ export class TypeaheadSearch {
     AppState.setSearchResultsVisible = false;
   }
 
+  private handleInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.onSearchInput(value);
+  }
+
+  private handleFocus() {
+    const inputValue = this.searchInput?.value ?? '';
+
+    if (
+      inputValue.length > 0 &&
+      (AppState.searchData.movies.length > 0 || AppState.searchData.tvShows.length > 0)
+    ) {
+      AppState.setSearchResultsVisible = true;
+    }
+  }
+
   render() {
     return (
       <Host>
@@ -46,14 +80,20 @@ export class TypeaheadSearch {
           <div class="ui icon transparent inverted input">
             <input
               class="prompt"
-              type="text"
+              type="search"
               placeholder="Film oder TV-Serie finden"
-              onKeyUp={(event) => this.onSearchInput((event.target as HTMLTextAreaElement).value)}
+              ref={(element) => (this.searchInput = element as HTMLInputElement)}
+              onInput={(event) => this.handleInput(event)}
+              onFocus={() => this.handleFocus()}
             />
             <i class="search icon"></i>
           </div>
 
-          <div class={`results transition ${AppState.setSearchResultsVisible ? 'show' : 'hidden'}`}>
+          <div
+            class={`results transition ${AppState.setSearchResultsVisible ? 'show' : 'hidden'}`}
+            tabindex={AppState.setSearchResultsVisible ? 0 : -1}
+            aria-hidden={!AppState.setSearchResultsVisible}
+          >
             {AppState.searchData && AppState.searchData.movies.length > 0 ? (
               <div class="category">
                 <div class="name">
