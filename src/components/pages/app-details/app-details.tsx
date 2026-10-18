@@ -67,7 +67,7 @@ export class AppDetails {
                   <small class="meta">{detailsData.episode_run_time[0]} Minuten pro Episode</small>
                 </p>
               ) : (
-                <p>
+                <p class="info">
                   <small>keine Information vorhanden</small>
                 </p>
               )}
@@ -168,7 +168,7 @@ export class AppDetails {
               <p>
                 {hasValue(detailsData.homepage) ? (
                   <a class="home-link" href={detailsData.homepage} target="_blank" rel="noopener noreferrer">
-                    {detailsData.homepage.replace('https://', '')}
+                    {detailsData.homepage?.replace('https://', '')}
                   </a>
                 ) : (
                   <small>keine Information vorhanden</small>
@@ -176,8 +176,8 @@ export class AppDetails {
               </p>
 
               <h2 class="ui medium header">Erschienen:</h2>
-              {hasValue(detailsData.release_date) ? Utils.dateToLocale(detailsData.release_date) : null}
-              {hasValue(detailsData.first_air_date) ? Utils.dateToLocale(detailsData.first_air_date) : null}
+              {hasValue(detailsData.release_date) ? Utils.dateToLocale(detailsData.release_date as string) : null}
+              {hasValue(detailsData.first_air_date) ? Utils.dateToLocale(detailsData.first_air_date as string) : null}
 
               <h2 class="ui medium header">Produktion:</h2>
               {detailsData.production_companies?.length ? (

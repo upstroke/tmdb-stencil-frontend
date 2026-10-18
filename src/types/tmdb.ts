@@ -57,4 +57,6 @@ export interface DetailsData {
   episode_run_time?: number[];
   cast?: Person[];
   crew?: Person[];
+  original_title?: string;
+  original_name?: string;
 }
