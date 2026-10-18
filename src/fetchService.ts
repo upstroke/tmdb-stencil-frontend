@@ -1,6 +1,8 @@
 import { AppState } from './store'
 
 class FetchAPI {
+  private detailsRequestId = 0;
+
   constructor() {}
 
   async fetchRequestJSON(url: string) {
@@ -56,11 +58,22 @@ class FetchAPI {
   }
 
   async getDetails(type: string, id: string) {
+    const requestId = ++this.detailsRequestId;
+
+    if (!/^\d+$/.test(id)) {
+      AppState.detailsData = null;
+      return;
+    }
+
     AppState.detailsData = null;
 
     const details = await this.fetchRequestJSON(
       `${AppState.baseUrl}/${type}/${id}?api_key=${AppState.apiKey}&language=${AppState.language}`
     );
+
+    if (requestId !== this.detailsRequestId) {
+      return;
+    }
 
     if (!details || !details.id) {
       return;
@@ -69,6 +82,10 @@ class FetchAPI {
     const credits = await this.fetchRequestJSON(
       `${AppState.baseUrl}/${type}/${id}/credits?api_key=${AppState.apiKey}`
     );
+
+    if (requestId !== this.detailsRequestId) {
+      return;
+    }
 
     AppState.detailsData = credits
       ? { ...details, ...credits }
