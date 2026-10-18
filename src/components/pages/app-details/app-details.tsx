@@ -1,4 +1,4 @@
-import { Component, h, Host, Prop } from '@stencil/core';
+import { Component, h, Host, Prop, Watch } from '@stencil/core';
 import { AppState } from '../../../store';
 import { FetchService } from '../../../fetchService';
 import { Utils } from '../../../utils';
@@ -11,6 +11,14 @@ import { Utils } from '../../../utils';
 export class AppDetails {
   @Prop() elementId: string;
   @Prop() mediaType: string;
+
+  @Watch('elementId')
+  @Watch('mediaType')
+  handleRouteParameterChange() {
+    if (this.elementId && this.mediaType) {
+      FetchService.getDetails(this.mediaType, this.elementId);
+    }
+  }
 
   getDetailsInfo(type: string) {
     if (type === 'movie') {
