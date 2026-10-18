@@ -3,6 +3,7 @@ import { navigate } from '../../lib/router/router';
 import { FetchService } from '../../fetchService';
 import { Utils } from '../../utils';
 import { AppState } from '../../store';
+import { Movie, TvShow } from '../../types/tmdb';
 
 @Component({
   tag: 'typeahead-search',
@@ -12,7 +13,7 @@ import { AppState } from '../../store';
 export class TypeaheadSearch {
   @Element() host!: HTMLElement;
 
-  private searchInput: HTMLInputElement;
+  private searchInput!: HTMLInputElement;
 
   @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
@@ -31,10 +32,8 @@ export class TypeaheadSearch {
   @Method()
   async onSearchInput(value: string) {
     if (value.length > 3) {
-      this.getSearchResult(value);
-    }
-
-    if (value.length < 4) {
+      void this.getSearchResult(value);
+    } else {
       AppState.setSearchResultsVisible = false;
     }
   }
@@ -100,7 +99,7 @@ export class TypeaheadSearch {
                   <p>Movies</p>
                 </div>
                 <div class="results transition">
-                  {AppState.searchData.movies.map((element) => {
+                  {AppState.searchData.movies.map((element: Movie) => {
                     const detailsRoute = `/details/movie/${element.id}`;
 
                     return (
@@ -135,7 +134,7 @@ export class TypeaheadSearch {
                   <p>TvShows</p>
                 </div>
                 <div class="results transition">
-                  {AppState.searchData.tvShows.map((element) => {
+                  {AppState.searchData.tvShows.map((element: TvShow) => {
                     const detailsRoute = `/details/tv/${element.id}`;
 
                     return (

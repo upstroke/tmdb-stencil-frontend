@@ -1,4 +1,5 @@
 import { createStore } from '@stencil/store';
+import { SearchData } from './types/tmdb';
 
 const store = createStore({
   baseUrl: 'https://api.themoviedb.org/3',
@@ -18,8 +19,12 @@ const store = createStore({
 
   featuredData: undefined,
 
-  searchData: {'movies':[], 'tvShows':[]},
-  setSearchResultsVisible: false
+  searchData: {
+    movies: [],
+    tvShows: [],
+  } as SearchData,
+
+  setSearchResultsVisible: false,
 });
 
 
