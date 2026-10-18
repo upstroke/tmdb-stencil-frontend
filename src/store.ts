@@ -2,8 +2,7 @@ import { createStore } from '@stencil/store';
 import { DetailsData, SearchData } from './types/tmdb';
 
 const store = createStore({
-  baseUrl: 'https://api.themoviedb.org/3',
-  apiKey: process.env.APP_API_KEY,
+  baseUrl: process.env.APP_API_BASE_URL,
   language: process.env.APP_LANG,
 
   trending: undefined,

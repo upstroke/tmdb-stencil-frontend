@@ -9,12 +9,8 @@ if (env.error) {
   throw new Error(`could not load file .env: ${env.error.message}`);
 }
 
-const apiKey = process.env.APP_API_KEY;
 const language = process.env.APP_LANG ?? 'de-DE';
-
-if (!apiKey) {
-  throw new Error('APP_API_KEY is missing in your .env file');
-}
+const apiBaseUrl = process.env.APP_API_BASE_URL ?? '/api/tmdb';
 
 export const config: Config = {
   namespace: 'tmdb-stencil-frontend',
@@ -23,8 +19,8 @@ export const config: Config = {
     replace({
       preventAssignment: true,
       values: {
-        'process.env.APP_API_KEY': JSON.stringify(apiKey),
         'process.env.APP_LANG': JSON.stringify(language),
+        'process.env.APP_API_BASE_URL': JSON.stringify(apiBaseUrl),
       },
     }),
   ],
