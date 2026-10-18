@@ -15,7 +15,6 @@ export class AppOutlet {
   @Prop() routes: AppRoute[] = [];
 
   @State() currentPath: string = '/';
-  @State() params: RouteParams = {};
 
   private unsubscribe: (() => void) | undefined;
 
@@ -60,10 +59,12 @@ export class AppOutlet {
     }
 
     const { route, params } = matchedRoute;
+    const componentTag = route.component;
+    const ComponentTag = componentTag as any;
 
     return (
       <Host>
-        <route.component {...params} />
+        <ComponentTag {...params} />
       </Host>
     );
   }

@@ -16,7 +16,7 @@ const routes: AppRoute[] = [
     component: 'app-tvshows',
   },
   {
-    path: '/details/:id',
+    path: '/details/:mediaType/:id',
     component: 'app-details',
   },
 ];

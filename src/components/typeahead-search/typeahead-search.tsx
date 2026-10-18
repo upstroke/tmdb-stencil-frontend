@@ -1,9 +1,8 @@
-import { Component, h, Host, Method, Prop } from '@stencil/core';
+import { Component, h, Host, Method } from '@stencil/core';
+import { navigate } from '../../lib/router/router';
 import { FetchService } from '../../fetchService';
 import { Utils } from '../../utils';
 import { AppState } from '../../store';
-import { injectHistory, RouterHistory } from '@stencil/router';
-
 
 @Component({
   tag: 'typeahead-search',
@@ -11,104 +10,122 @@ import { injectHistory, RouterHistory } from '@stencil/router';
   shadow: false,
 })
 export class TypeaheadSearch {
-
-  @Prop() history: RouterHistory
-
   @Method()
-    async onSearchInput(val: string){
-      if(val.length > 3){
-        this.getSearchResult(val)
-      }
-
-      if(val.length < 4){
-        AppState.setSearchResultsVisible = false
-      }
+  async onSearchInput(value: string) {
+    if (value.length > 3) {
+      this.getSearchResult(value);
     }
 
-  @Method()
-    async getSearchResult(term: string){
-      FetchService.getSeachResults(term)
-      if(AppState.searchData.movies.length || AppState.searchData.tvShows.length){
-        AppState.setSearchResultsVisible = true
-      }else {
-        AppState.setSearchResultsVisible = false
-      }
+    if (value.length < 4) {
+      AppState.setSearchResultsVisible = false;
     }
+  }
 
   @Method()
-    async goTo(e, route, data) {
-      e.preventDefault();
-      this.history.push(route, {data})
-      AppState.setSearchResultsVisible = false
-      window.location.reload()
+  async getSearchResult(term: string) {
+    FetchService.getSeachResults(term);
+
+    if (AppState.searchData.movies.length || AppState.searchData.tvShows.length) {
+      AppState.setSearchResultsVisible = true;
+    } else {
+      AppState.setSearchResultsVisible = false;
     }
+  }
+
+  @Method()
+  async goTo(event: MouseEvent, route: string) {
+    event.preventDefault();
+    navigate(route);
+    AppState.setSearchResultsVisible = false;
+  }
 
   render() {
     return (
       <Host>
         <div class="ui left aligned transparent category search">
           <div class="ui icon transparent inverted input">
-            <input class="prompt" type="text" placeholder="Film oder TV-Serie finden" onKeyUp={(e)=>{this.onSearchInput((e.target as HTMLTextAreaElement).value)}} />
+            <input
+              class="prompt"
+              type="text"
+              placeholder="Film oder TV-Serie finden"
+              onKeyUp={(event) => this.onSearchInput((event.target as HTMLTextAreaElement).value)}
+            />
             <i class="search icon"></i>
           </div>
 
           <div class={`results transition ${AppState.setSearchResultsVisible ? 'show' : 'hidden'}`}>
-
-            {AppState.searchData  && AppState.searchData.movies.length > 0
-              ? <div class="category">
+            {AppState.searchData && AppState.searchData.movies.length > 0 ? (
+              <div class="category">
                 <div class="name">
                   <p>Movies</p>
                 </div>
                 <div class="results transition">
-                  {AppState.searchData  && AppState.searchData.movies && AppState.searchData.movies.map((element) =>
-                    <a class="result" key={element.id} onClick={(e)=>{this.goTo(e,`/details:${element.id}`,{id: element.id, media_type: 'movie'})}}>
-                      <div class="content">
-                        <div class="title">{element.title}</div>
-                        <small class="ui mini basic label">
-                          <i class="yellow star icon"></i>
-                          {element.vote_average}
-                        </small>
-                        <div class="description">
-                          <small>{Utils.dateYearOnly(element.release_date)}</small>
+                  {AppState.searchData.movies.map((element) => {
+                    const detailsRoute = `/details/movie/${element.id}`;
+
+                    return (
+                      <a
+                        class="result"
+                        key={element.id}
+                        href={`#${detailsRoute}`}
+                        onClick={(event: MouseEvent) => this.goTo(event, detailsRoute)}
+                      >
+                        <div class="content">
+                          <div class="title">{element.title}</div>
+                          <small class="ui mini basic label">
+                            <i class="yellow star icon"></i>
+                            {element.vote_average}
+                          </small>
+                          <div class="description">
+                            <small>{Utils.dateYearOnly(element.release_date)}</small>
+                          </div>
                         </div>
-                      </div>
-                    </a>
-                  )}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
-              : ''
-            }
+            ) : (
+              ''
+            )}
 
-            {AppState.searchData && AppState.searchData.tvShows.length > 0
-              ? <div class="category">
+            {AppState.searchData && AppState.searchData.tvShows.length > 0 ? (
+              <div class="category">
                 <div class="name">
                   <p>TvShows</p>
                 </div>
                 <div class="results transition">
-                  {AppState.searchData  && AppState.searchData.tvShows && AppState.searchData.tvShows.map((element) =>
-                    <a class="result" key={element.id} onClick={(e)=>{this.goTo(e,`/details:${element.id}`,{id: element.id, media_type: 'tv'})}}>
-                      <div class="content">
-                        <div class="title">{element.name}</div>
-                        <small class="ui mini basic label">
-                          <i class="yellow star icon"></i>
-                          {element.vote_average}
-                        </small>
-                        <div class="description">
-                          <small>{element.first_air_date ? Utils.dateYearOnly(element.first_air_date) : '- -'}</small>
+                  {AppState.searchData.tvShows.map((element) => {
+                    const detailsRoute = `/details/tv/${element.id}`;
+
+                    return (
+                      <a
+                        class="result"
+                        key={element.id}
+                        href={`#${detailsRoute}`}
+                        onClick={(event: MouseEvent) => this.goTo(event, detailsRoute)}
+                      >
+                        <div class="content">
+                          <div class="title">{element.name}</div>
+                          <small class="ui mini basic label">
+                            <i class="yellow star icon"></i>
+                            {element.vote_average}
+                          </small>
+                          <div class="description">
+                            <small>{element.first_air_date ? Utils.dateYearOnly(element.first_air_date) : '- -'}</small>
+                          </div>
                         </div>
-                      </div>
-                    </a>
-                  )}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
-              : ''
-            }
-
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </Host>
     );
   }
 }
-
-injectHistory(TypeaheadSearch);
