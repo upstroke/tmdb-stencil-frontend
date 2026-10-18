@@ -9,9 +9,9 @@
 
 | Property    | Attribute    | Description | Type            | Default     |
 | ----------- | ------------ | ----------- | --------------- | ----------- |
-| `elementId` | `element-id` |             | `any`           | `undefined` |
+| `elementId` | `element-id` |             | `string`        | `undefined` |
 | `history`   | --           |             | `RouterHistory` | `undefined` |
-| `mediaType` | `media-type` |             | `any`           | `undefined` |
+| `mediaType` | `media-type` |             | `string`        | `undefined` |
 
 
 ## Methods
@@ -32,11 +32,15 @@ Type: `Promise<void>`
 ### Used by
 
  - [app-main](../../pages/app-main)
+ - [app-movies](../../pages/app-movies)
+ - [app-tvshows](../../pages/app-tvshows)
 
 ### Graph
 ```mermaid
 graph TD;
   app-main --> featured-card
+  app-movies --> featured-card
+  app-tvshows --> featured-card
   style featured-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

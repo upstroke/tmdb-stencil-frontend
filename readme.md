@@ -4,6 +4,22 @@
 This site makes use of the TMDb API. Hence you need to get an API key. You can get the key at their website at: https://developers.themoviedb.org/3/
 Alter the .env file and use your API key with the API_KEY variable.
 
+## Environment variables
+
+Create a local `.env` file in the project root:
+
+```bash
+cp .env.example .env
+```
+
+Then add your own TMDB API key.
+
+| Variable      | Required | Description                                                                 |
+|---------------|----------|-----------------------------------------------------------------------------|
+| `APP_API_KEY` | Yes      | TMDB API key (`API Key (v3 auth)`). Used as the `api_key` query parameter.  |
+| `APP_LANG`    | No       | TMDB request language, for example `de-DE` or `en-US`. Defaults to `de-DE`. |
+
+Never commit your real `.env` file or TMDB API key.
 
 # Stencil Component Starter
 

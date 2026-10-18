@@ -23,4 +23,8 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+
+# Local environment configuration
 .env
+.env.local
+.env.*.local

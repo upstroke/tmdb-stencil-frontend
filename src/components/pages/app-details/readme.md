@@ -9,9 +9,9 @@
 
 | Property     | Attribute     | Description | Type            | Default     |
 | ------------ | ------------- | ----------- | --------------- | ----------- |
-| `elementID`  | `element-i-d` |             | `any`           | `undefined` |
+| `elementID`  | `element-i-d` |             | `string`        | `undefined` |
 | `history`    | --            |             | `RouterHistory` | `undefined` |
-| `media_type` | `media_type`  |             | `any`           | `undefined` |
+| `media_type` | `media_type`  |             | `string`        | `undefined` |
 
 
 ----------------------------------------------
