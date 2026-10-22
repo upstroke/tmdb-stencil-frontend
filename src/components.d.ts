@@ -5,12 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AppRoute } from "./types/router";
-export { AppRoute } from "./types/router";
+import { AppRoute, MediaType } from "./types/router";
+export { AppRoute, MediaType } from "./types/router";
 export namespace Components {
     interface AppDetails {
         "elementId"?: string;
-        "mediaType"?: string;
+        "mediaType"?: MediaType;
     }
     interface AppLink {
         "exact": boolean;
@@ -34,7 +34,7 @@ export namespace Components {
     interface FeaturedCard {
         "elementId"?: string;
         "goTo": (event: MouseEvent, route: string) => Promise<void>;
-        "mediaType"?: string;
+        "mediaType"?: MediaType;
     }
     interface MainFooter {
     }
@@ -128,7 +128,7 @@ declare global {
 declare namespace LocalJSX {
     interface AppDetails {
         "elementId"?: string;
-        "mediaType"?: string;
+        "mediaType"?: MediaType;
     }
     interface AppLink {
         "exact"?: boolean;
@@ -150,7 +150,7 @@ declare namespace LocalJSX {
     }
     interface FeaturedCard {
         "elementId"?: string;
-        "mediaType"?: string;
+        "mediaType"?: MediaType;
     }
     interface MainFooter {
     }

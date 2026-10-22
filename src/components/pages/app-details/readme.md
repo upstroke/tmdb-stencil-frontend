@@ -7,10 +7,10 @@
 
 ## Properties
 
-| Property    | Attribute    | Description | Type     | Default     |
-| ----------- | ------------ | ----------- | -------- | ----------- |
-| `elementId` | `element-id` |             | `string` | `undefined` |
-| `mediaType` | `media-type` |             | `string` | `undefined` |
+| Property    | Attribute    | Description | Type              | Default     |
+| ----------- | ------------ | ----------- | ----------------- | ----------- |
+| `elementId` | `element-id` |             | `string`          | `undefined` |
+| `mediaType` | `media-type` |             | `"movie" \| "tv"` | `undefined` |
 
 
 ## Dependencies
