@@ -1,9 +1,15 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
 import { matchRoute, RouteParams, subscribeToPath } from '../lib/router/router';
 
+export type AppRouteComponent =
+  | 'app-main'
+  | 'app-movies'
+  | 'app-tvshows'
+  | 'app-details';
+
 export interface AppRoute {
   path: string;
-  component: string;
+  component: AppRouteComponent;
   exact?: boolean;
 }
 
@@ -59,12 +65,19 @@ export class AppOutlet {
     }
 
     const { route, params } = matchedRoute;
-    const componentTag = route.component;
-    const ComponentTag = componentTag as any;
 
     return (
       <Host>
-        <ComponentTag key={this.currentPath} {...params} />
+        {route.component === 'app-main' && <app-main key={this.currentPath} />}
+        {route.component === 'app-movies' && <app-movies key={this.currentPath} />}
+        {route.component === 'app-tvshows' && <app-tvshows key={this.currentPath} />}
+        {route.component === 'app-details' && (
+          <app-details
+            key={this.currentPath}
+            mediaType={params.mediaType}
+            elementId={params.elementId}
+          />
+        )}
       </Host>
     );
   }
