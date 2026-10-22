@@ -19,6 +19,8 @@ TMDB API credentials are handled by a local Node.js proxy. The browser never rec
 - **Stencil web components:** The UI is built from standards-based web components and can generally be reused outside this project.
 - **Production build:** Generates a static website in the `www/` directory.
 
+![TMDB Next.js Frontend – Homepage](src/assets/homepage.png)
+
 ## Requirements
 
 - Node.js 20 or newer
@@ -76,15 +78,15 @@ Never commit your real `.env` file, TMDB API key, or proxy access token.
 
 ## Environment variables
 
-| Variable | Required | Description |
-|---|---|---|
-| `APP_API_KEY` | Yes | TMDB API key (`API Key (v3 auth)`). Used only by the Node proxy. |
-| `PROXY_ACCESS_TOKEN` | Yes | Token required by the proxy. Used only by the Node proxy. |
-| `APP_PROXY_ACCESS_TOKEN` | Yes | The same proxy token, embedded into the frontend build. |
-| `PROXY_ALLOWED_ORIGINS` | Yes | Comma-separated browser origins allowed to call the proxy. |
-| `APP_LANG` | No | TMDB request language, for example `de-DE` or `en-US`. Defaults to `de-DE`. |
-| `APP_API_BASE_URL` | No | API base URL used by the Stencil frontend. Defaults to `http://localhost:3001/api/tmdb`. |
-| `PROXY_PORT` | No | Port used by the local TMDB proxy. Defaults to `3001`. |
+| Variable                 | Required | Description                                                                              |
+|--------------------------|----------|------------------------------------------------------------------------------------------|
+| `APP_API_KEY`            | Yes      | TMDB API key (`API Key (v3 auth)`). Used only by the Node proxy.                         |
+| `PROXY_ACCESS_TOKEN`     | Yes      | Token required by the proxy. Used only by the Node proxy.                                |
+| `APP_PROXY_ACCESS_TOKEN` | Yes      | The same proxy token, embedded into the frontend build.                                  |
+| `PROXY_ALLOWED_ORIGINS`  | Yes      | Comma-separated browser origins allowed to call the proxy.                               |
+| `APP_LANG`               | No       | TMDB request language, for example `de-DE` or `en-US`. Defaults to `de-DE`.              |
+| `APP_API_BASE_URL`       | No       | API base URL used by the Stencil frontend. Defaults to `http://localhost:3001/api/tmdb`. |
+| `PROXY_PORT`             | No       | Port used by the local TMDB proxy. Defaults to `3001`.                                   |
 
 ## Development
 
@@ -185,60 +187,33 @@ Stencil is a compiler for building fast web apps using Web Components. It genera
 
 When creating new component tags, avoid using `stencil` in the component name, for example `<stencil-datepicker>`. Use a project- or company-specific prefix instead.
 
-## Using this component
-
-There are three recommended strategies for using web components built with Stencil.
-
-The first step for all three strategies is to [publish to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages).
-
-### Script tag
-
-Add a script tag to your `index.html`:
-
-```html
-<script src="https://unpkg.com/my-component@0.0.1/dist/mycomponent.js"></script>
-```
-
-Then use the element anywhere in your template, JSX, or HTML.
-
-### Node modules
-
-Install the package:
-
-```bash
-npm install my-component --save
-```
-
-Add a script tag:
-
-```html
-<script src="node_modules/my-component/dist/mycomponent.js"></script>
-```
-
-### In a Stencil app
-
-Install the package:
-
-```bash
-npm install my-component --save
-```
-
-Import it in your application:
-
-```ts
-import 'my-component';
-```
-
-Need help? Check out the [Stencil documentation](https://stenciljs.com/docs/my-first-component).
 
 ## TODO
-- Review the Stencil migration guide and **migrate** the project to the **current Stencil release**.
-- **Add** automated unit tests for utility functions, the fetch service, and store logic.
-- **Add** component tests for search, cards, routing, and the custom error page.
-- **Add** end-to-end tests for the main user flows: browsing trending content, searching, opening details, and handling invalid IDs.
-- **Improve** accessibility by including keyboard navigation concepts, focus management, ARIA attributes, and screen-reader announcements.
-- **Add** loading and empty states for search results, overview pages, and detail pages.
-- **Improve error handling** for network failures and unexpected API responses.
-- **Add** internationalization support beyond the TMDB request language, including UI labels and date/number formatting.
-- **Add** responsive design improvements and test the layout across common screen sizes.
-- **Document** the component API, project architecture, and local development workflow in more detail.
+## TODO
+
+### Architecture and maintenance
+
+- [x] Add type-safe route definitions and route rendering.
+- [ ] Improve TypeScript type safety for TMDB API responses, store state, route parameters, and media details.
+- [ ] Remove remaining `any` types and introduce discriminated movie and TV show types.
+- [ ] Review the Stencil migration guide and migrate the project to the current Stencil release.
+- [ ] Improve error handling for network failures and unexpected API responses.
+- [ ] Preserve loaded trending, movie, and TV show results when navigating between routes.
+- [ ] Deduplicate paginated TMDB results by media type and TMDB ID to prevent duplicate cards when trending data changes between page requests.
+
+### Testing and quality
+
+- [ ] Add unit tests for utility functions, the fetch service, and store logic.
+- [ ] Add component tests for search, cards, routing, and the custom error page.
+- [ ] Add end-to-end tests for browsing trending content, searching, opening details, and handling invalid IDs.
+- [ ] Improve accessibility, including keyboard navigation, focus management, ARIA attributes, and screen-reader announcements.
+
+### User experience
+
+- [ ] Add loading and empty states for search results, overview pages, and detail pages.
+- [ ] Add responsive design improvements and test common screen sizes, including a mobile navigation menu.
+- [ ] Add internationalization support beyond the TMDB request language, including UI labels and date and number formatting.
+
+### Documentation
+
+- [ ] Document the component API, project architecture, and local development workflow in more detail.
