@@ -4,6 +4,21 @@ A Stencil-based frontend for browsing trending movies and TV shows using [The Mo
 
 TMDB API credentials are handled by a local Node.js proxy. The browser never receives the TMDB API key directly.
 
+## Features
+
+- **Trending overview:** Home page showing current trending movies and TV shows from TMDB.
+- **Movies and TV shows:** Dedicated overview pages for movies (`/movies`) and TV shows (`/tvshows`).
+- **Detail pages:** Detailed views for individual movies and TV shows via the `/details/:type/:id` route.
+- **Typeahead search:** Live search with suggestions while typing.
+- **Client-side routing:** Custom `app-link` and `app-outlet` components for navigation and route rendering.
+- **Custom error page:** If a manually entered movie or TV show ID cannot be resolved through the TMDB API, the app displays a custom error page with an error message and a link back to the home page.
+- **Reusable card components:** Consistent presentation of movie and TV show posters and search results.
+- **Localized TMDB requests:** The TMDB response language can be configured using `APP_LANG`; it defaults to `de-DE`.
+- **Secure TMDB access:** A local Node.js proxy keeps the TMDB API key server-side and never exposes it to the browser.
+- **Protected proxy:** The proxy validates a Bearer token and only allows configured browser origins.
+- **Stencil web components:** The UI is built from standards-based web components and can generally be reused outside this project.
+- **Production build:** Generates a static website in the `www/` directory.
+
 ## Requirements
 
 - Node.js 20 or newer
@@ -215,3 +230,15 @@ import 'my-component';
 ```
 
 Need help? Check out the [Stencil documentation](https://stenciljs.com/docs/my-first-component).
+
+## TODO
+- Review the Stencil migration guide and **migrate** the project to the **current Stencil release**.
+- **Add** automated unit tests for utility functions, the fetch service, and store logic.
+- **Add** component tests for search, cards, routing, and the custom error page.
+- **Add** end-to-end tests for the main user flows: browsing trending content, searching, opening details, and handling invalid IDs.
+- **Improve** accessibility by including keyboard navigation concepts, focus management, ARIA attributes, and screen-reader announcements.
+- **Add** loading and empty states for search results, overview pages, and detail pages.
+- **Improve error handling** for network failures and unexpected API responses.
+- **Add** internationalization support beyond the TMDB request language, including UI labels and date/number formatting.
+- **Add** responsive design improvements and test the layout across common screen sizes.
+- **Document** the component API, project architecture, and local development workflow in more detail.
