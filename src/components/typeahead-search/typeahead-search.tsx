@@ -13,7 +13,7 @@ import { Movie, TvShow } from '../../types/tmdb';
 export class TypeaheadSearch {
   @Element() host!: HTMLElement;
 
-  private static readonly MIN_SEARCH_LENGTH = 2;
+  private static readonly MIN_SEARCH_LENGTH = 3;
 
   private searchInput!: HTMLInputElement;
 
