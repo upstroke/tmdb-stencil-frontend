@@ -20,6 +20,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+ - [app-outlet](../..)
+
 ### Depends on
 
 - [featured-card](../../cards/featured-card)
@@ -30,6 +34,7 @@ Type: `Promise<void>`
 graph TD;
   app-main --> featured-card
   app-main --> default-card
+  app-outlet --> app-main
   style app-main fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

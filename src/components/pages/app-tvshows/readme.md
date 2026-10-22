@@ -7,6 +7,10 @@
 
 ## Dependencies
 
+### Used by
+
+ - [app-outlet](../..)
+
 ### Depends on
 
 - [featured-card](../../cards/featured-card)
@@ -17,6 +21,7 @@
 graph TD;
   app-tvshows --> featured-card
   app-tvshows --> default-card
+  app-outlet --> app-tvshows
   style app-tvshows fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

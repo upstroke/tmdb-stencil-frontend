@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AppRoute } from "./components/app-outlet";
-export { AppRoute } from "./components/app-outlet";
+import { AppRoute } from "./types/router";
+export { AppRoute } from "./types/router";
 export namespace Components {
     interface AppDetails {
         "elementId"?: string;
