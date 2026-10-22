@@ -1,5 +1,5 @@
 import { Component, h, Host } from '@stencil/core';
-import { AppRoute } from './app-outlet';
+import { AppRoute } from '../types/router';
 
 const routes: AppRoute[] = [
   {
