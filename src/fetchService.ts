@@ -1,4 +1,5 @@
-import { AppState } from './store'
+import { AppState } from './store';
+import { MediaType } from './types/router';
 
 type FeedType = 'trending' | 'movies' | 'tvShows';
 
@@ -111,7 +112,7 @@ class FetchAPI {
     }
   }
 
-  async getDetails(type: string, id: string) {
+  async getDetails(type: MediaType, id: string) {
     const requestId = ++this.detailsRequestId;
 
     if (!/^\d+$/.test(id)) {

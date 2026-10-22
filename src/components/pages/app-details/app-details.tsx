@@ -3,6 +3,7 @@ import { AppState } from '../../../store';
 import { FetchService } from '../../../fetchService';
 import { Utils } from '../../../utils';
 import { DetailsData } from '../../../types/tmdb';
+import { MediaType } from '../../../types/router';
 
 const hasValue = (value?: string | number | null): boolean =>
   value !== undefined && value !== null && value !== 0 && value !== '0' && value !== '';
@@ -14,17 +15,23 @@ const hasValue = (value?: string | number | null): boolean =>
 })
 export class AppDetails {
   @Prop() elementId?: string;
-  @Prop() mediaType?: string;
+  @Prop() mediaType?: MediaType;
+
+  private isSupportedMediaType(
+    mediaType: MediaType | undefined,
+  ): mediaType is MediaType {
+    return mediaType === 'movie' || mediaType === 'tv';
+  }
 
   @Watch('elementId')
   @Watch('mediaType')
   handleRouteParameterChange() {
-    if (this.elementId && this.mediaType) {
+    if (this.elementId && this.isSupportedMediaType(this.mediaType)) {
       void FetchService.getDetails(this.mediaType, this.elementId);
     }
   }
 
-  getDetailsInfo(type: string, detailsData: DetailsData) {
+  getDetailsInfo(type: MediaType, detailsData: DetailsData) {
     if (type === 'movie') {
       return (
         <section>
@@ -81,7 +88,9 @@ export class AppDetails {
   }
 
   connectedCallback() {
-    void FetchService.getDetails(this.mediaType as string, this.elementId as string);
+    if (this.elementId && this.isSupportedMediaType(this.mediaType)) {
+      void FetchService.getDetails(this.mediaType, this.elementId);
+    }
   }
 
   render() {
@@ -193,7 +202,9 @@ export class AppDetails {
               )}
 
               <div class="hidden spacer"></div>
-              {this.getDetailsInfo(this.mediaType as string, detailsData)}
+              {this.isSupportedMediaType(this.mediaType)
+                ? this.getDetailsInfo(this.mediaType, detailsData)
+                : null}
               <div class="hidden spacer"></div>
 
               <div class="event">

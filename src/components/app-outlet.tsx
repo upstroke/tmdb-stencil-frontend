@@ -1,6 +1,10 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
 import { matchRoute, RouteParams, subscribeToPath } from '../lib/router/router';
-import { AppRoute } from '../types/router';
+import { AppRoute, MediaType } from '../types/router';
+
+function isMediaType(value: string): value is MediaType {
+  return value === 'movie' || value === 'tv';
+}
 
 @Component({
   tag: 'app-outlet',
@@ -60,7 +64,7 @@ export class AppOutlet {
         {route.component === 'app-main' && <app-main key={this.currentPath} />}
         {route.component === 'app-movies' && <app-movies key={this.currentPath} />}
         {route.component === 'app-tvshows' && <app-tvshows key={this.currentPath} />}
-        {route.component === 'app-details' && (
+        {route.component === 'app-details' && isMediaType(params.mediaType) && (
           <app-details
             key={this.currentPath}
             mediaType={params.mediaType}
