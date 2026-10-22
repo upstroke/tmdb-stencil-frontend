@@ -1,17 +1,6 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
 import { matchRoute, RouteParams, subscribeToPath } from '../lib/router/router';
-
-export type AppRouteComponent =
-  | 'app-main'
-  | 'app-movies'
-  | 'app-tvshows'
-  | 'app-details';
-
-export interface AppRoute {
-  path: string;
-  component: AppRouteComponent;
-  exact?: boolean;
-}
+import { AppRoute } from '../types/router';
 
 @Component({
   tag: 'app-outlet',
