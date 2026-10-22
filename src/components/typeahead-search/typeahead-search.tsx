@@ -13,6 +13,8 @@ import { Movie, TvShow } from '../../types/tmdb';
 export class TypeaheadSearch {
   @Element() host!: HTMLElement;
 
+  private static readonly MIN_SEARCH_LENGTH = 2;
+
   private searchInput!: HTMLInputElement;
 
   @Listen('keydown', { target: 'document' })
@@ -31,7 +33,7 @@ export class TypeaheadSearch {
 
   @Method()
   async onSearchInput(value: string) {
-    if (value.length > 3) {
+    if (value.length >= TypeaheadSearch.MIN_SEARCH_LENGTH) {
       void this.getSearchResult(value);
     } else {
       AppState.setSearchResultsVisible = false;
