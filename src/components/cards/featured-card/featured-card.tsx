@@ -3,6 +3,7 @@ import { navigate } from '../../../lib/router/router';
 import { AppState } from '../../../store';
 import { FetchService } from '../../../fetchService';
 import { Utils } from '../../../utils';
+import { MediaType } from '../../../types/router';
 
 @Component({
   tag: 'featured-card',
@@ -11,7 +12,13 @@ import { Utils } from '../../../utils';
 })
 export class FeaturedCard {
   @Prop() elementId?: string;
-  @Prop() mediaType?: string;
+  @Prop() mediaType?: MediaType;
+
+  private isSupportedMediaType(
+    mediaType: MediaType | undefined,
+  ): mediaType is MediaType {
+    return mediaType === 'movie' || mediaType === 'tv';
+  }
 
   @Method()
   async goTo(event: MouseEvent, route: string) {
@@ -20,7 +27,9 @@ export class FeaturedCard {
   }
 
   connectedCallback() {
-    FetchService.getDetails(this.mediaType, this.elementId);
+    if (this.elementId && this.isSupportedMediaType(this.mediaType)) {
+      FetchService.getDetails(this.mediaType, this.elementId);
+    }
   }
 
   render() {
@@ -95,7 +104,7 @@ export class FeaturedCard {
     return (
       <div class="ui segment is-loading">
         <div class="ui active inverted dimmer">
-          <div class="ui text loader">Loading</div>
+          <div class="ui active text loader">Loading</div>
         </div>
       </div>
     );
