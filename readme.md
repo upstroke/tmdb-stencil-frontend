@@ -187,14 +187,12 @@ Stencil is a compiler for building fast web apps using Web Components. It genera
 
 When creating new component tags, avoid using `stencil` in the component name, for example `<stencil-datepicker>`. Use a project- or company-specific prefix instead.
 
-
-## TODO
 ## TODO
 
 ### Architecture and maintenance
 
-- [x] Add type-safe route definitions and route rendering.
-- [ ] Improve TypeScript type safety for TMDB API responses, store state, route parameters, and media details.
+- [x] Add type-safe route definitions, route parameters, and route rendering.
+- [ ] Improve TypeScript type safety for TMDB API responses, store state, and media details.
 - [ ] Remove remaining `any` types and introduce discriminated movie and TV show types.
 - [ ] Review the Stencil migration guide and migrate the project to the current Stencil release.
 - [ ] Improve error handling for network failures and unexpected API responses.
