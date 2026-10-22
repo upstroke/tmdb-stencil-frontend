@@ -1,3 +1,5 @@
+export type MediaType = 'movie' | 'tv';
+
 export type AppRouteComponent =
   | 'app-main'
   | 'app-movies'
