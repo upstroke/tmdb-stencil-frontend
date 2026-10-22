@@ -42,7 +42,7 @@ export class TypeaheadSearch {
 
   @Method()
   async getSearchResult(term: string) {
-    FetchService.getSearchResults(term);
+    await FetchService.getSearchResults(term);
 
     if (AppState.searchData.movies.length || AppState.searchData.tvShows.length) {
       AppState.setSearchResultsVisible = true;

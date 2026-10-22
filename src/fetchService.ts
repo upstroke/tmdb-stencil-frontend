@@ -13,6 +13,7 @@ const feedEndpoints = {
 
 class FetchAPI {
   private detailsRequestId = 0;
+  private searchRequestId = 0;
 
   constructor() {}
 
@@ -148,14 +149,25 @@ class FetchAPI {
       : details;
   }
 
-  getSearchResults(term: string) {
-    this.fetchRequestJSON(`${AppState.baseUrl}/search/movie?language=${AppState.language}&query=${term}`)
-      .then((data1) => {
-        this.fetchRequestJSON(`${AppState.baseUrl}/search/tv?language=${AppState.language}&query=${term}`)
-          .then((data2) => {
-            AppState.searchData = {'movies': [...data1.results], 'tvShows': [...data2.results]}
-          })
-      })
+  async getSearchResults(term: string) {
+    const requestId = ++this.searchRequestId;
+
+    const movies = await this.fetchRequestJSON(
+      `${AppState.baseUrl}/search/movie?language=${AppState.language}&query=${encodeURIComponent(term)}`
+    );
+
+    const tvShows = await this.fetchRequestJSON(
+      `${AppState.baseUrl}/search/tv?language=${AppState.language}&query=${encodeURIComponent(term)}`
+    );
+
+    if (requestId !== this.searchRequestId) {
+      return;
+    }
+
+    AppState.searchData = {
+      movies: movies?.results ?? [],
+      tvShows: tvShows?.results ?? [],
+    };
   }
 
 }
