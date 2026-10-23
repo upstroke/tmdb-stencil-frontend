@@ -59,6 +59,18 @@ export class AppOutlet {
 
     const { route, params } = matchedRoute;
 
+    // Show not-found page for unsupported media types in detail routes
+    if (route.component === 'app-details' && !isMediaType(params.mediaType)) {
+      return (
+        <Host>
+          <main class="ui container">
+            <h1>Seite nicht gefunden</h1>
+            <p>Die angeforderte Seite existiert nicht.</p>
+          </main>
+        </Host>
+      );
+    }
+
     return (
       <Host>
         {route.component === 'app-main' && <app-main key={this.currentPath} />}
