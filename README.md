@@ -26,6 +26,8 @@ TMDB API credentials are handled by a local Node.js proxy. The browser never rec
 See [docs/agent-prompts.md](docs/agent-prompts.md) for reusable prompts for
 Cline and other AI coding agents.
 
+Use the `/update-docs.md` workflow for documentation-only changes.
+
 ## Requirements
 
 - Node.js 20 or newer

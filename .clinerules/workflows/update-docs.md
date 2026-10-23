@@ -12,6 +12,10 @@ Update a Markdown documentation file safely and minimally.
 7. Show the changed section after editing.
 8. Report the changed file and line range.
 
+Preserve Markdown formatting.
+When adding a new paragraph, insert a blank line before and after it unless
+the surrounding Markdown structure requires otherwise.
+
 Do not read or modify source code unless the documentation change requires it.
 Do not modify files outside the explicitly allowed scope.
 Do not rely on conversation history or assumptions when deciding whether a
