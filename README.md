@@ -21,6 +21,11 @@ TMDB API credentials are handled by a local Node.js proxy. The browser never rec
 
 ![TMDB Next.js Frontend – Homepage](src/assets/homepage.png)
 
+## Agent workflow
+
+See [docs/agent-prompts.md](docs/agent-prompts.md) for reusable prompts for
+Cline and other AI coding agents.
+
 ## Requirements
 
 - Node.js 20 or newer
