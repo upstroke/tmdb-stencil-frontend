@@ -28,3 +28,5 @@ UserInterfaceState.xcuserstate
 .env
 .env.local
 .env.*.local
+/docs/
+/.clinerules/
