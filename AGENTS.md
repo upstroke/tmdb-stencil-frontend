@@ -45,8 +45,11 @@ Do not begin a broad repository analysis unless the user asks for one.
 
 ## XERJ
 
-Use XERJ when you do not know where code, a symbol, route, API call, or
-documentation lives.
+If XERJ is available, use it when you do not know where code, a symbol, route,
+API call, or documentation lives.
+
+XERJ is optional. If it is not available, use the fallback workflow in
+“Without XERJ or Cline”.
 
 Use `xerj_search` with a simple string query:
 
@@ -73,6 +76,31 @@ Rules:
 
 Do not use XERJ when the user names a specific file or provides the exact
 change. Read that file directly instead.
+
+## Without XERJ or Cline
+
+XERJ and Cline are optional development tools. This repository can be used
+without them.
+
+If XERJ is not available, use the editor or IDE search instead:
+
+- Search for route names, component names, symbols, CSS classes, and error
+  messages.
+- Start with the files listed in the Routing section.
+- Use targeted searches instead of reading the entire repository.
+- Read the most relevant file before making changes.
+
+If Cline is not available, follow the same workflow manually:
+
+1. Understand the requested outcome.
+2. Read the relevant files.
+3. State a short implementation plan.
+4. Implement the smallest possible change.
+5. Verify the change using the documented route-testing URLs.
+
+The instructions in this file are tool-independent. They describe the expected
+workflow for any developer or AI coding agent.
+
 
 ## Routing
 
