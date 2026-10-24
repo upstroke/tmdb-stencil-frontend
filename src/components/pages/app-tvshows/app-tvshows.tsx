@@ -14,7 +14,7 @@ export class AppTVshows {
   }
 
   componentWillLoad(){
-    FetchService.getAll('tv')
+    void FetchService.getAll('tv');
   }
 
 

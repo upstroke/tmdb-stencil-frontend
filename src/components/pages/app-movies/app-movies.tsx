@@ -15,7 +15,7 @@ export class AppMovies {
   }
 
   componentWillLoad(){
-    FetchService.getAll('movie')
+    void FetchService.getAll('movie');
   }
 
 
