@@ -37,11 +37,14 @@ It includes a "Zur Startseite" link with the target `/#/`.
 
 ## Failed Detail Lookups
 
-[fetchService.ts](../../src/fetchService.ts) sets `detailsData` to
-`undefined` at the beginning of `getDetails()`.
+[fetchService.ts](../../src/fetchService.ts) first increments the
+detail request ID and validates the supplied ID in `getDetails()`.
 
 An ID that does not match the digits-only pattern `/^\d+$/` sets
-`detailsData` to `null` without performing the detail lookup.
+`detailsData` to `null` and returns without performing the detail lookup.
+
+For valid IDs, `detailsData` is set to `undefined` before the detail
+request starts.
 
 For requests handled by `fetchRequestJSON()`:
 
