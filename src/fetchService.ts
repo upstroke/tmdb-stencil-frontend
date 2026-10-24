@@ -80,7 +80,7 @@ class FetchAPI {
     AppState[type] = {
       ...feed,
       page: data.page,
-      results: [...feed.results, ...data.results],
+      results: [...feed.results, ...(data.results?.filter((r: any) => r.media_type === 'movie' || r.media_type === 'tv') ?? [])],
     };
   }
 
@@ -90,7 +90,7 @@ class FetchAPI {
         if(!AppState.trending){
           this.fetchRequestJSON(`${AppState.baseUrl}/trending/all/week?language=${AppState.language}`)
             .then((data) => {
-              AppState.trending = data
+              AppState.trending = { ...data, results: data.results?.filter((r: any) => r.media_type === 'movie' || r.media_type === 'tv') ?? [] };
             });
         }
         break;

@@ -27,7 +27,7 @@ export class DefaultCard {
             onClick={(event: MouseEvent) => this.goTo(event, detailsRoute)}
           >
             <img
-              src={this.item.backdrop_path !== null ? `http://image.tmdb.org/t/p/w342/${this.item.backdrop_path}` : 'assets/not-available.png'}
+              src={this.item.backdrop_path ? `http://image.tmdb.org/t/p/w342/${this.item.backdrop_path}` : 'assets/not-available.png'}
               alt=""
             />
             <div class={`ui top right attached label ${this.item.media_type === 'movie' ? 'blue' : 'teal'}`}>
