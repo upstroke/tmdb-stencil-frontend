@@ -6,7 +6,9 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { AppRoute, MediaType } from "./types/router";
+import { TrendingResult } from "./types/tmdb";
 export { AppRoute, MediaType } from "./types/router";
+export { TrendingResult } from "./types/tmdb";
 export namespace Components {
     interface AppDetails {
         "elementId"?: string;
@@ -29,7 +31,7 @@ export namespace Components {
     interface AppTvshows {
     }
     interface DefaultCard {
-        "item": any;
+        "item": TrendingResult;
     }
     interface FeaturedCard {
         "elementId"?: string;
@@ -146,7 +148,7 @@ declare namespace LocalJSX {
     interface AppTvshows {
     }
     interface DefaultCard {
-        "item": any;
+        "item": TrendingResult;
     }
     interface FeaturedCard {
         "elementId"?: string;
