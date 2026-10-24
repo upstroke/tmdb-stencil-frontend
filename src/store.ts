@@ -16,8 +16,6 @@ const store = createStore({
 
   detailsData: undefined as DetailsData | null | undefined,
 
-  featuredData: undefined,
-
   searchData: {
     movies: [],
     tvShows: [],
@@ -50,10 +48,6 @@ store.onChange('tvShowsAmountToShow', (value) => {
 
 store.onChange('detailsData', (value) => {
   AppState.detailsData = value;
-});
-
-store.onChange('featuredData', (value) => {
-  AppState.featuredData = value;
 });
 
 store.onChange('searchData', (value) => {
