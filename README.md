@@ -28,6 +28,41 @@ Cline and other AI coding agents.
 
 Use the `/update-docs.md` workflow for documentation-only changes.
 
+## TMDB Integration
+
+The application integrates the third-party [TMDB REST API](https://developer.themoviedb.org/docs/getting-started) through a separate Node.js reverse proxy.
+
+The Stencil frontend never communicates directly with TMDB and never receives the TMDB API key. Instead, it sends requests to the proxy endpoint configured through `APP_API_BASE_URL`. The proxy validates the browser origin and bearer token, forwards approved GET requests to TMDB, replaces any client-provided `api_key` with the server-side `APP_API_KEY`, and returns the TMDB response to the frontend.
+
+### Data flow
+
+```text
+Stencil browser app
+        |
+        |  Authorization: Bearer <proxy token>
+        v
+Node.js TMDB proxy
+        |
+        |  api_key=<TMDB_API_KEY>
+        v
+TMDB REST API
+        |
+        v
+Node.js TMDB proxy
+        |
+        v
+Stencil browser app
+```
+
+### Characteristics
+
+- **Client-side Stencil frontend:** The UI is built with Stencil web components and accesses TMDB through the proxy.
+- **Separate Node.js reverse proxy:** `server/tmdb-proxy.mjs` forwards browser requests to the TMDB REST API.
+- **Third-party REST API integration:** TMDB is consumed over HTTPS using REST endpoints and JSON responses.
+- **Server-side API-key handling:** `APP_API_KEY` remains on the proxy and is never exposed to the browser.
+- **Basic proxy protection:** The proxy restricts browser origins, requires a bearer token, and allows only GET requests.
+- **Transparent forwarding:** The proxy does not transform, aggregate, or reshape TMDB responses.
+
 ## Requirements
 
 - Node.js 20 or newer
