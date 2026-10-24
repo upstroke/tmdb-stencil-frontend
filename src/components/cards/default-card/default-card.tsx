@@ -1,6 +1,7 @@
 import { Component, h, Host, Prop } from '@stencil/core';
 import { navigate } from '../../../lib/router/router';
 import { Utils } from '../../../utils';
+import { TrendingResult } from '../../../types/tmdb';
 
 @Component({
   tag: 'default-card',
@@ -8,7 +9,7 @@ import { Utils } from '../../../utils';
   shadow: false,
 })
 export class DefaultCard {
-  @Prop() item!: any;
+  @Prop() item!: TrendingResult;
 
   private goTo(event: MouseEvent, route: string) {
     event.preventDefault();
