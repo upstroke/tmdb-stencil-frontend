@@ -3,7 +3,6 @@ import { MediaType } from './types/router';
 import {
   DetailsData,
   Movie,
-  Person,
   TmdbPage,
   TrendingResult,
   TvShow,
@@ -117,7 +116,7 @@ class FetchAPI {
         break;
       case 'movie':
         if(!AppState.movies) {
-          this.fetchRequestJSON<TmdbPage<Movie>>(`${AppState.baseUrl}/trending/movie/week?language=${AppState.language}&sort_by=popularity.desc`)
+          this.fetchRequestJSON<TmdbPage<TrendingResult>>(`${AppState.baseUrl}/trending/movie/week?language=${AppState.language}&sort_by=popularity.desc`)
             .then((data) => {
               if (data) {
                 AppState.movies = data;
@@ -127,7 +126,7 @@ class FetchAPI {
         break;
       case 'tv':
           if(!AppState.tvShows) {
-            this.fetchRequestJSON<TmdbPage<TvShow>>(`${AppState.baseUrl}/trending/tv/week?language=${AppState.language}&sort_by=popularity.desc`)
+            this.fetchRequestJSON<TmdbPage<TrendingResult>>(`${AppState.baseUrl}/trending/tv/week?language=${AppState.language}&sort_by=popularity.desc`)
               .then((data) => {
                 if (data) {
                   AppState.tvShows = data;
