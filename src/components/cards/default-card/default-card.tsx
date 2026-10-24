@@ -17,7 +17,10 @@ export class DefaultCard {
   }
 
   render() {
-    const detailsRoute = `/details/${this.item.media_type}/${this.item.id}`;
+    const item = this.item;
+    const detailsRoute = `/details/${item.media_type}/${item.id}`;
+    const title = item.media_type === 'movie' ? item.title : item.name;
+    const releaseDate = item.media_type === 'movie' ? item.release_date : item.first_air_date;
 
     return (
       <Host>
@@ -28,22 +31,22 @@ export class DefaultCard {
             onClick={(event: MouseEvent) => this.goTo(event, detailsRoute)}
           >
             <img
-              src={this.item.backdrop_path ? `http://image.tmdb.org/t/p/w342/${this.item.backdrop_path}` : 'assets/not-available.png'}
+              src={item.backdrop_path ? `http://image.tmdb.org/t/p/w342/${item.backdrop_path}` : 'assets/not-available.png'}
               alt=""
             />
-            <div class={`ui top right attached label ${this.item.media_type === 'movie' ? 'blue' : 'teal'}`}>
-              {this.item.media_type}
+            <div class={`ui top right attached label ${item.media_type === 'movie' ? 'blue' : 'teal'}`}>
+              {item.media_type}
             </div>
           </a>
         </div>
 
         <div class="content">
-          <div class="header" title={this.item.title ? this.item.title : this.item.name}>
-            {this.item.title ? this.item.title : this.item.name}
+          <div class="header" title={title}>
+            {title}
           </div>
           <div class="meta">
             <span class="date">
-              {this.item.release_date ? Utils.dateToLocale(this.item.release_date) : Utils.dateToLocale(this.item.first_air_date)}
+              {releaseDate ? Utils.dateToLocale(releaseDate) : ''}
             </span>
           </div>
         </div>
@@ -51,7 +54,7 @@ export class DefaultCard {
         <div class="extra content">
           <span>Rating:&nbsp;</span>
           <i class="yellow star icon"></i>
-          <small class="ui label">{this.item.vote_average}</small>
+          <small class="ui label">{item.vote_average}</small>
         </div>
 
         <div class="ui bottom attached button" onClick={(event: MouseEvent) => this.goTo(event, detailsRoute)}>
