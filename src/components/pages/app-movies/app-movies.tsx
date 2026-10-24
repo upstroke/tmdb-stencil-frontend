@@ -10,12 +10,12 @@ import { FetchService } from '../../../fetchService';
 
 export class AppMovies {
 
-  showMore(amount) {
-    FetchService.showMore('movies', amount)
+  showMore(amount: number) {
+    void FetchService.showMore('movies', amount);
   }
 
   componentWillLoad(){
-    FetchService.getAll('movie')
+    void FetchService.getAll('movie');
   }
 
 

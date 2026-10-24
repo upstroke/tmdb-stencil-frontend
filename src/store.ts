@@ -1,23 +1,41 @@
 import { createStore } from '@stencil/store';
-import { DetailsData, SearchData } from './types/tmdb';
+import { DetailsData, SearchData, TmdbPage, TrendingResult } from './types/tmdb';
 
 const store = createStore({
   baseUrl: process.env.APP_API_BASE_URL,
   language: process.env.APP_LANG,
 
-  trending: undefined,
+  /**
+   * Mixed TMDB trending feed containing movies and TV shows.
+   * Person entries are filtered out before this state is set.
+   */
+  trending: undefined as TmdbPage<TrendingResult> | undefined,
   trendingAmountToShow: 4,
 
-  movies: undefined,
+  /**
+   * Movie-only trending feed.
+   */
+  movies: undefined as TmdbPage<TrendingResult> | undefined,
   moviesAmountToShow: 4,
 
-  tvShows: undefined,
+  /**
+   * TV-show-only trending feed.
+   */
+  tvShows: undefined as TmdbPage<TrendingResult> | undefined,
   tvShowsAmountToShow: 4,
 
+  /**
+   * Details for the currently selected movie or TV show.
+   *
+   * - `undefined`: details are being loaded.
+   * - `null`: no valid details could be loaded.
+   * - `DetailsData`: details and credits were loaded successfully.
+   */
   detailsData: undefined as DetailsData | null | undefined,
 
-  featuredData: undefined,
-
+  /**
+   * Search results, separated into movies and TV shows.
+   */
   searchData: {
     movies: [],
     tvShows: [],
@@ -50,10 +68,6 @@ store.onChange('tvShowsAmountToShow', (value) => {
 
 store.onChange('detailsData', (value) => {
   AppState.detailsData = value;
-});
-
-store.onChange('featuredData', (value) => {
-  AppState.featuredData = value;
 });
 
 store.onChange('searchData', (value) => {

@@ -9,12 +9,12 @@ import { FetchService } from '../../../fetchService';
 })
 
 export class AppTVshows {
-  showMore(amount) {
-    FetchService.showMore('tvShows', amount)
+  showMore(amount: number) {
+    void FetchService.showMore('tvShows', amount);
   }
 
   componentWillLoad(){
-    FetchService.getAll('tv')
+    void FetchService.getAll('tv');
   }
 
 
@@ -32,7 +32,7 @@ export class AppTVshows {
             )}
           </div>
           {AppState.tvShows.results.length > AppState.tvShowsAmountToShow
-            ? <button class="fluid ui button" onClick={()=>this.showMore(4)}>Weitere Filme</button>
+            ? <button class="fluid ui button" onClick={()=>this.showMore(4)}>Weitere Serien</button>
             : null
           }
         </main>

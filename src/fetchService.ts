@@ -1,5 +1,13 @@
 import { AppState } from './store';
 import { MediaType } from './types/router';
+import {
+  DetailsData,
+  Movie,
+  TmdbPage,
+  TrendingResult,
+  TvShow,
+  isTrendingResult,
+} from './types/tmdb';
 
 type FeedType = 'trending' | 'movies' | 'tvShows';
 
@@ -25,7 +33,7 @@ class FetchAPI {
     };
   }
 
-  async fetchRequestJSON(url: string) {
+  async fetchRequestJSON<T = unknown>(url: string): Promise<T | null> {
     try {
       const response = await fetch(url, this.getRequestOptions());
 
@@ -34,7 +42,7 @@ class FetchAPI {
       }
 
       this.handleErrors(response);
-      return await response.json();
+      return (await response.json()) as T;
     } catch (err) {
       console.log('Error: ', err);
       return null;
@@ -48,7 +56,7 @@ class FetchAPI {
   }
 
   async showMore(type: FeedType, amount: number) {
-    const feed = AppState[type] as any;
+    const feed = AppState[type];
     const amountKey = `${type}AmountToShow` as 'trendingAmountToShow' | 'moviesAmountToShow' | 'tvShowsAmountToShow';
 
     if (!feed) {
@@ -69,7 +77,7 @@ class FetchAPI {
     const nextPage = feed.page + 1;
     const endpoint = feedEndpoints[type];
 
-    const data = await this.fetchRequestJSON(
+    const data = await this.fetchRequestJSON<TmdbPage<TrendingResult>>(
       `${AppState.baseUrl}/${endpoint}?language=${AppState.language}&page=${nextPage}`
     );
 
@@ -77,10 +85,10 @@ class FetchAPI {
       return;
     }
 
-    const seenKeys = new Set(feed.results.map((r: any) => `${r.media_type}-${r.id}`));
-    const uniqueResults = data.results?.filter((r: any) =>
-      r.media_type === 'movie' || r.media_type === 'tv'
-    ).filter((r: any) => !seenKeys.has(`${r.media_type}-${r.id}`)) ?? [];
+    const seenKeys = new Set(feed.results.map((result) => `${result.media_type}-${result.id}`));
+    const uniqueResults = data.results
+      .filter(isTrendingResult)
+      .filter((result) => !seenKeys.has(`${result.media_type}-${result.id}`));
 
     AppState[type] = {
       ...feed,
@@ -93,25 +101,36 @@ class FetchAPI {
     switch (type) {
       case 'trending':
         if(!AppState.trending){
-          this.fetchRequestJSON(`${AppState.baseUrl}/trending/all/week?language=${AppState.language}`)
+          this.fetchRequestJSON<TmdbPage<TrendingResult>>(`${AppState.baseUrl}/trending/all/week?language=${AppState.language}`)
             .then((data) => {
-              AppState.trending = { ...data, results: data.results?.filter((r: any) => r.media_type === 'movie' || r.media_type === 'tv') ?? [] };
+              if (!data) {
+                return;
+              }
+
+              AppState.trending = {
+                ...data,
+                results: data.results.filter(isTrendingResult),
+              };
             });
         }
         break;
       case 'movie':
         if(!AppState.movies) {
-          this.fetchRequestJSON(`${AppState.baseUrl}/trending/movie/week?language=${AppState.language}&sort_by=popularity.desc`)
+          this.fetchRequestJSON<TmdbPage<TrendingResult>>(`${AppState.baseUrl}/trending/movie/week?language=${AppState.language}&sort_by=popularity.desc`)
             .then((data) => {
-              AppState.movies = data
+              if (data) {
+                AppState.movies = data;
+              }
             })
         }
         break;
       case 'tv':
           if(!AppState.tvShows) {
-            this.fetchRequestJSON(`${AppState.baseUrl}/trending/tv/week?language=${AppState.language}&sort_by=popularity.desc`)
+            this.fetchRequestJSON<TmdbPage<TrendingResult>>(`${AppState.baseUrl}/trending/tv/week?language=${AppState.language}&sort_by=popularity.desc`)
               .then((data) => {
-                AppState.tvShows = data
+                if (data) {
+                  AppState.tvShows = data;
+                }
               })
           }
         break;
@@ -128,7 +147,7 @@ class FetchAPI {
 
     AppState.detailsData = undefined;
 
-    const details = await this.fetchRequestJSON(
+    const details = await this.fetchRequestJSON<DetailsData>(
       `${AppState.baseUrl}/${type}/${id}?language=${AppState.language}`
     );
 
@@ -141,7 +160,7 @@ class FetchAPI {
       return;
     }
 
-    const credits = await this.fetchRequestJSON(
+    const credits = await this.fetchRequestJSON<Pick<DetailsData, 'cast' | 'crew'>>(
       `${AppState.baseUrl}/${type}/${id}/credits`
     );
 
@@ -157,11 +176,11 @@ class FetchAPI {
   async getSearchResults(term: string) {
     const requestId = ++this.searchRequestId;
 
-    const movies = await this.fetchRequestJSON(
+    const movies = await this.fetchRequestJSON<TmdbPage<Movie>>(
       `${AppState.baseUrl}/search/movie?language=${AppState.language}&query=${encodeURIComponent(term)}`
     );
 
-    const tvShows = await this.fetchRequestJSON(
+    const tvShows = await this.fetchRequestJSON<TmdbPage<TvShow>>(
       `${AppState.baseUrl}/search/tv?language=${AppState.language}&query=${encodeURIComponent(term)}`
     );
 
