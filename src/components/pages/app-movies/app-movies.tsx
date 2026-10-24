@@ -27,10 +27,6 @@ export class AppMovies {
           <featured-card class="ui featured card" media-type="movie" element-id="337401"/>
 
           <h2 class="ui dividing header">Top Rated Movies</h2>
-          <div class="spacer">
-            <p>Discover movies by different types of data like average rating, number of votes, genres and
-              certifications.</p>
-          </div>
           <div class="ui four doubling cards">
             {AppState.movies.results.slice(0,AppState.moviesAmountToShow).map((item, index) =>
               <default-card class="card" key={index} item={item} />
@@ -46,11 +42,7 @@ export class AppMovies {
 
     return (
       <main class="ui container">
-        <h2 class="ui dividing header">Discover Top Rated Productions</h2>
-        <div class="spacer">
-          <p>Discover movies by different types of data like average rating, number of votes, genres and
-            certifications.</p>
-        </div>
+        <h2 class="ui dividing header">Entdecke Top Rated Produktionen</h2>
         <div class="ui four doubling cards">
           {[1, 2, 3, 4].map(index => {
             return (

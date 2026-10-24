@@ -26,10 +26,6 @@ export class AppTVshows {
           <featured-card class="ui featured card" media-type="tv" element-id="68421"/>
 
           <h2 class="ui dividing header">Top Rated TV Shows</h2>
-          <div class="spacer">
-            <p>Discover movies by different types of data like average rating, number of votes, genres and
-              certifications.</p>
-          </div>
           <div class="ui four doubling cards">
             {AppState.tvShows.results.slice(0,AppState.tvShowsAmountToShow).map((item, index) =>
               <default-card class="card" key={index} item={item} />
@@ -45,11 +41,7 @@ export class AppTVshows {
 
     return (
       <main class="ui container">
-        <h2 class="ui dividing header">Discover Top Rated Productions</h2>
-        <div class="spacer">
-          <p>Discover TV shows by different types of data like average rating, number of votes, genres and
-            certifications.</p>
-        </div>
+        <h2 class="ui dividing header">Entdecke Top Rated Produktionen</h2>
         <div class="ui four doubling cards">
           {[1, 2, 3, 4].map(index => {
             return (

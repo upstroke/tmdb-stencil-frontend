@@ -12,7 +12,7 @@ export class AppMain {
 
   @Method()
     async showMore(amount: number) {
-      FetchService.showMore('trending', amount)
+      await FetchService.showMore('trending', amount);
     }
 
   connectedCallback(){
@@ -26,10 +26,9 @@ export class AppMain {
           <h2 class="ui dividing header">Featured Today</h2>
           <featured-card class="ui featured card" media-type="movie" element-id="181808" />
 
-          <h2 class="ui dividing header">Discover Top Rated Productions</h2>
+          <h2 class="ui dividing header">Entdecke Top Rated Produktionen</h2>
           <div class="spacer">
-            <p>Discover movies by different types of data like average rating, number of votes, genres and
-              certifications.</p>
+            <p>Entdecke Filme und Serien anhand verschiedener Daten wie durchschnittlicher Bewertung, Anzahl der Stimmen und Genres.</p>
           </div>
           <div class="ui four doubling cards">
             {AppState.trending.results
@@ -48,10 +47,9 @@ export class AppMain {
 
     return (
       <main class="ui container">
-        <h2 class="ui dividing header">Discover Top Rated Productions</h2>
+        <h2 class="ui dividing header">Entdecke Top Rated Produktionen</h2>
         <div class="spacer">
-          <p>Discover movies by different types of data like average rating, number of votes, genres and
-            certifications.</p>
+          <p>Entdecke Filme und Serien anhand verschiedener Daten wie durchschnittlicher Bewertung, Anzahl der Stimmen und Genres.</p>
         </div>
         <div class="ui four doubling cards">
           {[1, 2, 3, 4].map(index => {
@@ -61,7 +59,7 @@ export class AppMain {
                   <div class="ui active inverted dimmer">
                     <div class="ui text loader">Loading</div>
                   </div>
-                  <img class="ui wireframe image" src="assets/not-available.png" alt="" />
+                  <img class="ui wireframe image" src="/assets/not-available.png" alt="" />
                 </div>
               </div>
             )
