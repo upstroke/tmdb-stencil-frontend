@@ -1,3 +1,6 @@
+/**
+ * A movie entry returned by the TMDB API.
+ */
 export interface Movie {
   id: number;
   title?: string;
@@ -7,6 +10,9 @@ export interface Movie {
   poster_path?: string | null;
 }
 
+/**
+ * A TV show entry returned by the TMDB API.
+ */
 export interface TvShow {
   id: number;
   name?: string;
@@ -16,22 +22,50 @@ export interface TvShow {
   poster_path?: string | null;
 }
 
+/**
+ * A movie result from the mixed TMDB trending endpoint.
+ *
+ * `media_type` discriminates this type from `TvResult`.
+ */
 export interface MovieResult extends Movie {
   media_type: 'movie';
 }
 
+/**
+ * A TV show result from the mixed TMDB trending endpoint.
+ *
+ * `media_type` discriminates this type from `MovieResult`.
+ */
 export interface TvResult extends TvShow {
   media_type: 'tv';
 }
 
+/**
+ * A result from the mixed trending endpoint.
+ *
+ * Person entries are intentionally excluded; use `isTrendingResult`
+ * to narrow an untyped API result to this union.
+ */
 export type TrendingResult = MovieResult | TvResult;
 
+/**
+ * A paginated TMDB API response.
+ *
+ * `page` and `total_pages` are TMDB pagination metadata and must be
+ * preserved when filtering or merging results.
+ */
 export interface TmdbPage<T> {
   page: number;
   results: T[];
   total_pages: number;
 }
 
+/**
+ * Checks whether an untyped TMDB result is a movie or TV show entry.
+ *
+ * Person entries do not satisfy this guard and can therefore be
+ * filtered out of mixed trending results.
+ */
 export function isTrendingResult(value: unknown): value is TrendingResult {
   return (
     typeof value === 'object' &&
@@ -44,19 +78,31 @@ export function isTrendingResult(value: unknown): value is TrendingResult {
   );
 }
 
+/**
+ * Results of a TMDB search, separated by media type.
+ */
 export interface SearchData {
   movies: Movie[];
   tvShows: TvShow[];
 }
 
+/**
+ * A company credited for a movie or TV show.
+ */
 export interface ProductionCompany {
   name?: string;
 }
 
+/**
+ * A genre assigned to a movie or TV show.
+ */
 export interface Genre {
   name?: string;
 }
 
+/**
+ * A cast member or crew member on a movie or TV show detail page.
+ */
 export interface Person {
   name?: string;
   original_name?: string;
@@ -64,6 +110,14 @@ export interface Person {
   job?: string;
 }
 
+/**
+ * Details for a movie or TV show.
+ *
+ * The optional `title`/`release_date` fields apply to movies, while
+ * `name`/`first_air_date` apply to TV shows. `cast` and `crew` come
+ * from the separate TMDB credits response and are merged into this
+ * object by the fetch service.
+ */
 export interface DetailsData {
   id: number;
   backdrop_path?: string | null;

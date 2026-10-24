@@ -5,17 +5,37 @@ const store = createStore({
   baseUrl: process.env.APP_API_BASE_URL,
   language: process.env.APP_LANG,
 
+  /**
+   * Mixed TMDB trending feed containing movies and TV shows.
+   * Person entries are filtered out before this state is set.
+   */
   trending: undefined as TmdbPage<TrendingResult> | undefined,
   trendingAmountToShow: 4,
 
+  /**
+   * Movie-only trending feed.
+   */
   movies: undefined as TmdbPage<TrendingResult> | undefined,
   moviesAmountToShow: 4,
 
+  /**
+   * TV-show-only trending feed.
+   */
   tvShows: undefined as TmdbPage<TrendingResult> | undefined,
   tvShowsAmountToShow: 4,
 
+  /**
+   * Details for the currently selected movie or TV show.
+   *
+   * - `undefined`: details are being loaded.
+   * - `null`: no valid details could be loaded.
+   * - `DetailsData`: details and credits were loaded successfully.
+   */
   detailsData: undefined as DetailsData | null | undefined,
 
+  /**
+   * Search results, separated into movies and TV shows.
+   */
   searchData: {
     movies: [],
     tvShows: [],
