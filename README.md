@@ -200,8 +200,8 @@ When creating new component tags, avoid using `stencil` in the component name, f
 
 - [x] Add type-safe route definitions, route parameters, and route rendering.
 - [x] Show the not-found page when a detail route contains an unsupported media type.
-- [ ] Improve TypeScript type safety for TMDB API responses, store state, and media details.
-- [ ] Remove remaining `any` types and introduce discriminated movie and TV show types.
+- [x] Improve TypeScript type safety for TMDB API responses, store state, and media details.
+- [x] Remove remaining `any` types and introduce discriminated movie and TV show types.
 - [ ] Review the Stencil migration guide and migrate the project to the current Stencil release.
 - [ ] Improve error handling for network failures and unexpected API responses.
 - [ ] Preserve loaded trending, movie, and TV show results when navigating between routes.
