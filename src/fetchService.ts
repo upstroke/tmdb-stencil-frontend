@@ -77,10 +77,15 @@ class FetchAPI {
       return;
     }
 
+    const seenKeys = new Set(feed.results.map((r: any) => `${r.media_type}-${r.id}`));
+    const uniqueResults = data.results?.filter((r: any) =>
+      r.media_type === 'movie' || r.media_type === 'tv'
+    ).filter((r: any) => !seenKeys.has(`${r.media_type}-${r.id}`)) ?? [];
+
     AppState[type] = {
       ...feed,
       page: data.page,
-      results: [...feed.results, ...(data.results?.filter((r: any) => r.media_type === 'movie' || r.media_type === 'tv') ?? [])],
+      results: [...feed.results, ...uniqueResults],
     };
   }
 

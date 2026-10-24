@@ -208,6 +208,7 @@ When creating new component tags, avoid using `stencil` in the component name, f
 - [ ] Deduplicate paginated TMDB results by media type and TMDB ID to prevent duplicate cards when trending data changes between page requests.
 - [x] Show the existing `not-available.png` placeholder in `default-card` when no poster path is provided.
 - [x] Filter trending results to only include movie and TV entries in both the initial load (getAll) and subsequent page merges (showMore)
+- [x] Trending feed: Deduplicate cross-page duplicates using `media_type-id` in `showMore()` and verify
 
 ### Testing and quality
 
