@@ -1,17 +1,17 @@
 import { createStore } from '@stencil/store';
-import { DetailsData, SearchData } from './types/tmdb';
+import { DetailsData, Movie, SearchData, TmdbPage, TrendingResult, TvShow } from './types/tmdb';
 
 const store = createStore({
   baseUrl: process.env.APP_API_BASE_URL,
   language: process.env.APP_LANG,
 
-  trending: undefined,
+  trending: undefined as TmdbPage<TrendingResult> | undefined,
   trendingAmountToShow: 4,
 
-  movies: undefined,
+  movies: undefined as TmdbPage<Movie> | undefined,
   moviesAmountToShow: 4,
 
-  tvShows: undefined,
+  tvShows: undefined as TmdbPage<TvShow> | undefined,
   tvShowsAmountToShow: 4,
 
   detailsData: undefined as DetailsData | null | undefined,

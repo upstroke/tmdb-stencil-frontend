@@ -16,6 +16,34 @@ export interface TvShow {
   poster_path?: string | null;
 }
 
+export interface MovieResult extends Movie {
+  media_type: 'movie';
+}
+
+export interface TvResult extends TvShow {
+  media_type: 'tv';
+}
+
+export type TrendingResult = MovieResult | TvResult;
+
+export interface TmdbPage<T> {
+  page: number;
+  results: T[];
+  total_pages: number;
+}
+
+export function isTrendingResult(value: unknown): value is TrendingResult {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'id' in value &&
+    'media_type' in value &&
+    typeof (value as { id: unknown }).id === 'number' &&
+    ((value as { media_type: unknown }).media_type === 'movie' ||
+      (value as { media_type: unknown }).media_type === 'tv')
+  );
+}
+
 export interface SearchData {
   movies: Movie[];
   tvShows: TvShow[];
