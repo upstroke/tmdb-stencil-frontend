@@ -1,6 +1,7 @@
 # TMDB Stencil Frontend
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](https://nodejs.org/)
 [![Indexed in XERJ Corpus Hub](https://img.shields.io/badge/XERJ-Corpus%20Hub-blue)](https://hub.xerj.org/contributors/upstroke)
 
 A Stencil-based frontend for browsing trending movies and TV shows using [The Movie Database (TMDB)](https://www.themoviedb.org/).
