@@ -1,8 +1,13 @@
 # TMDB Stencil Frontend
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Indexed in XERJ Corpus Hub](https://img.shields.io/badge/XERJ-Corpus%20Hub-blue)](https://hub.xerj.org/contributors/upstroke)
+
 A Stencil-based frontend for browsing trending movies and TV shows using [The Movie Database (TMDB)](https://www.themoviedb.org/).
 
 TMDB API credentials are handled by a local Node.js proxy. The browser never receives the TMDB API key directly.
+
+![TMDB Stencil Frontend – Homepage](src/assets/homepage.png)
 
 ## Features
 
@@ -11,28 +16,33 @@ TMDB API credentials are handled by a local Node.js proxy. The browser never rec
 - **Detail pages:** Detailed views for individual movies and TV shows via the `/details/:type/:id` route.
 - **Typeahead search:** Live search with suggestions while typing.
 - **Client-side routing:** Custom `app-link` and `app-outlet` components for navigation and route rendering.
-- **Custom error page:** If a manually entered movie or TV show ID cannot be resolved through the TMDB API, the app displays a custom error page with an error message and a link back to the home page.
+- **Custom error page:** Displays a user-friendly error page when a manually entered movie or TV show ID cannot be resolved through the TMDB API.
 - **Reusable card components:** Consistent presentation of movie and TV show posters and search results.
-- **Localized TMDB requests:** The TMDB response language can be configured using `APP_LANG`; it defaults to `de-DE`.
+- **Configurable TMDB language:** The TMDB response language can be configured using `APP_LANG`; it defaults to `de-DE`.
 - **Secure TMDB access:** A local Node.js proxy keeps the TMDB API key server-side and never exposes it to the browser.
 - **Protected proxy:** The proxy validates a Bearer token and only allows configured browser origins.
 - **Stencil web components:** The UI is built from standards-based web components and can generally be reused outside this project.
 - **Production build:** Generates a static website in the `www/` directory.
 
-![TMDB Next.js Frontend – Homepage](src/assets/homepage.png)
+## Tech stack
+
+- [Stencil](https://stenciljs.com/) for standards-based Web Components
+- Custom client-side routing with `app-link` and `app-outlet`
+- Stencil Store for application state
+- Node.js reverse proxy for secure TMDB API access
+- Sass and Semantic UI CSS for styling
 
 ## Agent workflow
 
-See [docs/agent-prompts.md](docs/agent-prompts.md) for reusable prompts for
-Cline and other AI coding agents.
+See [docs/agent-prompts.md](docs/agent-prompts.md) for reusable prompts for Cline and other AI coding agents.
 
 Use the `/update-docs.md` workflow for documentation-only changes.
 
-## TMDB Integration
+## TMDB integration
 
 The application integrates the third-party [TMDB REST API](https://developer.themoviedb.org/docs/getting-started) through a separate Node.js reverse proxy.
 
-The Stencil frontend never communicates directly with TMDB and never receives the TMDB API key. Instead, it sends requests to the proxy endpoint configured through `APP_API_BASE_URL`. The proxy validates the browser origin and bearer token, forwards approved GET requests to TMDB, replaces any client-provided `api_key` with the server-side `APP_API_KEY`, and returns the TMDB response to the frontend.
+The Stencil frontend never communicates directly with TMDB and never receives the TMDB API key. Instead, it sends requests to the proxy endpoint configured through `APP_API_BASE_URL`. The proxy validates the browser origin and Bearer token, forwards approved GET requests to TMDB, replaces any client-provided `api_key` with the server-side `APP_API_KEY`, and returns the TMDB response to the frontend.
 
 ### Data flow
 
@@ -60,7 +70,7 @@ Stencil browser app
 - **Separate Node.js reverse proxy:** `server/tmdb-proxy.mjs` forwards browser requests to the TMDB REST API.
 - **Third-party REST API integration:** TMDB is consumed over HTTPS using REST endpoints and JSON responses.
 - **Server-side API-key handling:** `APP_API_KEY` remains on the proxy and is never exposed to the browser.
-- **Basic proxy protection:** The proxy restricts browser origins, requires a bearer token, and allows only GET requests.
+- **Basic proxy protection:** The proxy restricts browser origins, requires a Bearer token, and allows only GET requests.
 - **Transparent forwarding:** The proxy does not transform, aggregate, or reshape TMDB responses.
 
 ## Requirements
@@ -120,15 +130,15 @@ Never commit your real `.env` file, TMDB API key, or proxy access token.
 
 ## Environment variables
 
-| Variable                 | Required | Description                                                                              |
-|--------------------------|----------|------------------------------------------------------------------------------------------|
-| `APP_API_KEY`            | Yes      | TMDB API key (`API Key (v3 auth)`). Used only by the Node proxy.                         |
-| `PROXY_ACCESS_TOKEN`     | Yes      | Token required by the proxy. Used only by the Node proxy.                                |
-| `APP_PROXY_ACCESS_TOKEN` | Yes      | The same proxy token, embedded into the frontend build.                                  |
-| `PROXY_ALLOWED_ORIGINS`  | Yes      | Comma-separated browser origins allowed to call the proxy.                               |
-| `APP_LANG`               | No       | TMDB request language, for example `de-DE` or `en-US`. Defaults to `de-DE`.              |
-| `APP_API_BASE_URL`       | No       | API base URL used by the Stencil frontend. Defaults to `http://localhost:3001/api/tmdb`. |
-| `PROXY_PORT`             | No       | Port used by the local TMDB proxy. Defaults to `3001`.                                   |
+| Variable | Required | Description |
+|---|---|---|
+| `APP_API_KEY` | Yes | TMDB API key (`API Key (v3 auth)`). Used only by the Node proxy. |
+| `PROXY_ACCESS_TOKEN` | Yes | Token required by the proxy. Used only by the Node proxy. |
+| `APP_PROXY_ACCESS_TOKEN` | Yes | The same proxy token, embedded into the frontend build. |
+| `PROXY_ALLOWED_ORIGINS` | Yes | Comma-separated browser origins allowed to call the proxy. |
+| `APP_LANG` | No | TMDB request language, for example `de-DE` or `en-US`. Defaults to `de-DE`. |
+| `APP_API_BASE_URL` | No | API base URL used by the Stencil frontend. Defaults to `http://localhost:3001/api/tmdb`. |
+| `PROXY_PORT` | No | Port used by the local TMDB proxy. Defaults to `3001`. |
 
 ## Development
 
@@ -192,70 +202,27 @@ The deployable static website is generated in `www/`.
 Before building for production, configure:
 
 ```env
-APP_API_BASE_URL=https://your-proxy-domain.example/api/tmdb
+APP_API_BASE_URL=[https://your-proxy-domain.example/api/tmdb](https://your-proxy-domain.example/api/tmdb)
 APP_PROXY_ACCESS_TOKEN=your_production_proxy_token
-PROXY_ALLOWED_ORIGINS=https://your-frontend-domain.example
+PROXY_ALLOWED_ORIGINS=[https://your-frontend-domain.example](https://your-frontend-domain.example)
 ```
 
 The production frontend does not need or receive `APP_API_KEY`; the proxy adds it server-side.
 
-## TMDB proxy
+## Roadmap
 
-The proxy is implemented in `server/tmdb-proxy.mjs`.
+See the [project roadmap](./docs/roadmap.md) for the full overview.
 
-It forwards requests such as:
+Current priorities:
 
-```text
-/api/tmdb/trending/all/week
-```
+- Add unit, component and end-to-end tests
+- Improve accessibility, keyboard navigation and screen-reader support
+- Add loading, empty and error states for search and overview pages
 
-to TMDB:
-
-```text
-https://api.themoviedb.org/3/trending/all/week
-```
-
-and appends your `APP_API_KEY` as the TMDB `api_key` parameter.
-
-For production, deploy the proxy separately and configure `APP_API_KEY`, `PROXY_ACCESS_TOKEN`, and `PROXY_ALLOWED_ORIGINS` as environment variables or secrets in your hosting provider.
-
-# Stencil Component Starter
+## Project origin
 
 This project is based on the [Stencil Component Starter](https://github.com/ionic-team/stencil-component-starter).
 
-Stencil is a compiler for building fast web apps using Web Components. It generates standards-based Web Components that work in any major framework or without a framework.
+## License
 
-## Naming Components
-
-When creating new component tags, avoid using `stencil` in the component name, for example `<stencil-datepicker>`. Use a project- or company-specific prefix instead.
-
-## TODO
-
-### Architecture and maintenance
-
-- [x] Add type-safe route definitions, route parameters, and route rendering.
-- [x] Show the not-found page when a detail route contains an unsupported media type.
-- [x] Improve TypeScript type safety for TMDB API responses, store state, and media details.
-- [x] Remove remaining `any` types and introduce discriminated movie and TV show types.
-- [ ] Review the Stencil migration guide and migrate the project to the current Stencil release.
-- [ ] Improve error handling for network failures and unexpected API responses.
-- [ ] Preserve loaded trending, movie, and TV show results when navigating between routes.
-- [x] Deduplicate paginated TMDB results by media type and TMDB ID to prevent duplicate cards when trending data changes between page requests.
-- [x] Show the existing `not-available.png` placeholder in `default-card` when no poster path is provided.
-
-### Testing and quality
-
-- [ ] Add unit tests for utility functions, the fetch service, and store logic.
-- [ ] Add component tests for search, cards, routing, and the custom error page.
-- [ ] Add end-to-end tests for browsing trending content, searching, opening details, and handling invalid IDs.
-- [ ] Improve accessibility, including keyboard navigation, focus management, ARIA attributes, and screen-reader announcements.
-
-### User experience
-
-- [ ] Add loading and empty states for search results, overview pages, and detail pages.
-- [ ] Add responsive design improvements and test common screen sizes, including a mobile navigation menu.
-- [ ] Add internationalization support beyond the TMDB request language, including UI labels and date and number formatting.
-
-### Documentation
-
-- [ ] Document the component API, project architecture, and local development workflow in more detail.
+[MIT](./LICENSE)
